@@ -1,0 +1,109 @@
+{
+  "project_info": {
+    "project_number": "948685027549",
+    "firebase_url": "https://coneve-45b4f-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "coneve-45b4f",
+    "storage_bucket": "coneve-45b4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948685027549:android:de7c9b675e6e54b5930334",
+        "android_client_info": {
+          "package_name": "com.fiveonthego.conveve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948685027549-b6jkjm6g9qvd5qf44m4cffkdtjv962vo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fiveonthego.conveve",
+            "certificate_hash": "3dccc6622314de3306da8acbd61d283f72148c87"
+          }
+        },
+        {
+          "client_id": "948685027549-gcm57chckfnfj0c1bb4b02h23asfr76h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fiveonthego.conveve",
+            "certificate_hash": "7332c0ef12e79ba6174965d26cafbffc141d6907"
+          }
+        },
+        {
+          "client_id": "948685027549-q9eo1otra35n6kver2k346q6eosvuidg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fiveonthego.conveve",
+            "certificate_hash": "2da4b0a986ce036ccf12ed63b88b7cc25f223370"
+          }
+        },
+        {
+          "client_id": "948685027549-tdftlatimj4cas09vff81nbf6juk142s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fiveonthego.conveve",
+            "certificate_hash": "2fe35f62fd0ed161ab77b084dd84ad4cbca3029e"
+          }
+        },
+        {
+          "client_id": "948685027549-1mv29th0jdui23n481s07god24qou2n1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4jHWNdGsoG-DUKBDwg71sU58PxIpCFBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948685027549-1mv29th0jdui23n481s07god24qou2n1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948685027549:android:f58d7d0b8913a8e4930334",
+        "android_client_info": {
+          "package_name": "com.test.coneve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948685027549-ql9r84k91u95fdujodikugmfch9c93a2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.test.coneve",
+            "certificate_hash": "2da4b0a986ce036ccf12ed63b88b7cc25f223370"
+          }
+        },
+        {
+          "client_id": "948685027549-1mv29th0jdui23n481s07god24qou2n1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4jHWNdGsoG-DUKBDwg71sU58PxIpCFBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948685027549-1mv29th0jdui23n481s07god24qou2n1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
