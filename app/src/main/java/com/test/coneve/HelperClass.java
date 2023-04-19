@@ -6,17 +6,15 @@ import android.net.Uri;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class HelperClass {
-    public static Bitmap FetchBitmap(Uri uri)
+    public static Bitmap FetchBitmap(String uri)
     {
         try{
-            HttpURLConnection connection = (HttpURLConnection) (new URL(uri.toString())).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) (new URL(uri)).openConnection();
             connection.connect();
             InputStream data = connection.getInputStream();
             int length = data.available();
@@ -38,5 +36,9 @@ public class HelperClass {
             //TODO : Implement Exception Dialogue Fragment;
         }
         return null;
+    }
+    public static Bitmap FetchBitmap(Uri uri)
+    {
+        return FetchBitmap(uri.toString());
     }
 }
