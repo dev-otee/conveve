@@ -1,9 +1,8 @@
 package com.test.coneve;
 
-import android.content.res.Resources;
+
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
+
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -68,23 +67,23 @@ public class EventsDataModel implements Serializable {
     public int compare(EventsDataModel comp)
     {
         int comp_word = 0;
-        if(getStartDate() != comp.getStartDate())
+        if(!getStartDate().equals(comp.getStartDate()))
             comp_word |= fields.startDate.getWord();
-        if(getEndDate() != comp.getEndDate())
+        if(!getEndDate().equals(comp.getEndDate()))
             comp_word |= fields.endDate.getWord();
-        if(getDescription() != comp.getDescription())
+        if(!getDescription().equals(comp.getDescription()))
             comp_word |= fields.description.getWord();
-        if(getName() != comp.getName())
+        if(!getName().equals(comp.getName()))
             comp_word |= fields.name.getWord();
-        if(getPimageid() != comp.getPimageid())
+        if(!getPimageid().equals(comp.getPimageid()))
             comp_word |= fields.pimageid.getWord();
-        if(getReglink() != comp.getReglink())
+        if(!getReglink().equals(comp.getReglink()))
             comp_word |= fields.reglink.getWord();
-        if(getVenue() != comp.getVenue())
+        if(!getVenue().equals(comp.getVenue()))
             comp_word |= fields.venue.getWord();
-        if(getStarttime() != comp.getStarttime())
+        if(!getStarttime().equals(comp.getStarttime()))
             comp_word |= fields.startime.getWord();
-        if(getEndtime() != comp.getEndtime())
+        if(!getEndtime().equals(comp.getEndtime()))
             comp_word |= fields.endtime.getWord();
         return comp_word;
     }
