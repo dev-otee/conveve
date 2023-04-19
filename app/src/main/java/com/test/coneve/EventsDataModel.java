@@ -10,6 +10,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class EventsDataModel implements Serializable {
 
@@ -86,6 +87,16 @@ public class EventsDataModel implements Serializable {
         if(!getEndtime().equals(comp.getEndtime()))
             comp_word |= fields.endtime.getWord();
         return comp_word;
+    }
+
+    static class ComparatorList{
+        static class TimeCmp implements Comparator<EventsDataModel>{
+            @Override
+            public int compare(EventsDataModel o1, EventsDataModel o2) {
+                //TODO: implement time based sort
+                return 0;
+            }
+        }
     }
     public String getDescription() {
         return description;
