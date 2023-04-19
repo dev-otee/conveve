@@ -27,7 +27,7 @@ public class maintainerService extends Service {
 
     private boolean activemode;
     private int bindings;
-    private activeEventObjserver actobserver;
+    private activeEventObserver actobserver;
 
     private DatabaseReference root;
 
@@ -35,7 +35,7 @@ public class maintainerService extends Service {
         bindings = 0;
         events.setValue(new HashMap<String,EventsDataModel>());
         profile.setValue(null);
-        actobserver = new activeEventObjserver();
+        actobserver = new activeEventObserver();
         root = FirebaseDatabase.getInstance().getReference();
     }
     @Override
@@ -44,18 +44,20 @@ public class maintainerService extends Service {
         return START_STICKY;
     }
 
-    class activeEventObjserver implements ValueEventListener{
+    class activeEventObserver implements ValueEventListener{
 
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             Iterable<DataSnapshot> snapshots = snapshot.getChildren();
             HashMap<String,EventsDataModel> replacement = new HashMap<String,EventsDataModel>();
+            HashMap<String,EventsDataModel> current = events.getValue();
             for (DataSnapshot event_raw:
                     snapshots) {
                 EventsDataModel temp = event_raw.getValue(EventsDataModel.class);
+                EventsDataModel current_model = current.get(event_raw.getKey());
                 replacement.put(event_raw.getKey(),temp);
-                events.setValue(replacement);
             }
+            events.setValue(replacement);
         }
 
         @Override
