@@ -4,34 +4,72 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 
 public class maintainerService extends Service {
 
-    private int bindings;
+
+
     public MutableLiveData<FirebaseUser> profile;
-    //TODO :  Add event data
+    public MutableLiveData<HashMap<String,EventsDataModel>> events;
+
+    private boolean activemode;
+    private int bindings;
+    private activeEventObjserver actobserver;
+
+    private DatabaseReference root;
 
     public maintainerService() {
         bindings = 0;
-        FirebaseDatabase.getInstance().getReference("Events");
+        events.setValue(new HashMap<String,EventsDataModel>());
+        profile.setValue(null);
+        actobserver = new activeEventObjserver();
+        root = FirebaseDatabase.getInstance().getReference();
     }
     @Override
     public int onStartCommand(Intent intent,int flags,int startId)
     {
-
         return START_STICKY;
     }
 
+    class activeEventObjserver implements ValueEventListener{
+
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            Iterable<DataSnapshot> snapshots = snapshot.getChildren();
+            HashMap<String,EventsDataModel> replacement = new HashMap<String,EventsDataModel>();
+            for (DataSnapshot event_raw:
+                    snapshots) {
+                EventsDataModel temp = event_raw.getValue(EventsDataModel.class);
+                replacement.put(event_raw.getKey(),temp);
+                events.setValue(replacement);
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    }
     @Override
     public IBinder onBind(Intent intent) {
         bindings++;
-
+        if(bindings == 1)
+        {
+            root.child(getString(R.string.path_firebase_event)).addValueEventListener(actobserver);
+        }
         return new servicedataInterface(this);
     }
 
@@ -39,6 +77,10 @@ public class maintainerService extends Service {
     public boolean onUnbind (Intent intent)
     {
         bindings--;
+        if(bindings == 0)
+        {
+            root.child(getString(R.string.path_firebase_event)).removeEventListener(actobserver);
+        }
         return false;
     }
 }
