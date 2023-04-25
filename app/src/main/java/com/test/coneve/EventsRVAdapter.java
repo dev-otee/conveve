@@ -67,9 +67,10 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
         EventsDataModel event = eventSet[position];
         ((TextView) holder.getCardView().findViewById(R.id.eventname)).setText(event.getName());
         ((TextView) holder.getCardView().findViewById(R.id.eventdescription)).setText(event.getDescription());
+        
         // TODO: add image in the card view
 
-        event.eventPoster.observe((LifecycleOwner) caller.getContext(), new Observer<Bitmap>() {
+        event.eventPoster.observe(caller.getActivity(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
                 ((ImageView) holder.getCardView().findViewById(R.id.eventphoto)).setImageBitmap(bitmap);
