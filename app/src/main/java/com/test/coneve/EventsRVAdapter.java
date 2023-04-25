@@ -1,16 +1,22 @@
 package com.test.coneve;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Text;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHolder> {
 
@@ -62,6 +68,13 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
         ((TextView) holder.getCardView().findViewById(R.id.eventname)).setText(event.getName());
         ((TextView) holder.getCardView().findViewById(R.id.eventdescription)).setText(event.getDescription());
         // TODO: add image in the card view
+
+        event.eventPoster.observe((LifecycleOwner) caller.getContext(), new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                ((ImageView) holder.getCardView().findViewById(R.id.eventphoto)).setImageBitmap(bitmap);
+            }
+        });
 
     }
 
