@@ -39,7 +39,7 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
         caller = eventFragment;
         windowwidth = widthPixels;
         windowheight = heightPixels;
-
+        size = 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
