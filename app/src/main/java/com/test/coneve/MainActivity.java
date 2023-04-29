@@ -4,11 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +34,20 @@ public class MainActivity extends AppCompatActivity {
         ((BottomNavigationView) findViewById(R.id.main_activity_bottom_navigation)).setOnItemSelectedListener(new BottomNavBarEventHandler());
 
     }
+    servicedataInterface datainterface;
 
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        Intent mservice = new Intent(this,maintainerService.class);
+        startService(mservice);
+    }
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+    }
     class BottomNavBarEventHandler implements NavigationBarView.OnItemSelectedListener{
 
         int currentItem;

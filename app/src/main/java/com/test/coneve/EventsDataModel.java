@@ -2,8 +2,11 @@ package com.test.coneve;
 
 
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.util.Log;
 
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,6 +47,7 @@ public class EventsDataModel implements Serializable {
             return this.word;
         }
     }
+
     public void update(int comp_word, EventsDataModel update_data)
     {
         if((comp_word & fields.startDate.getWord())>0)
@@ -68,23 +72,23 @@ public class EventsDataModel implements Serializable {
     public int compare(EventsDataModel comp)
     {
         int comp_word = 0;
-        if(!getStartDate().equals(comp.getStartDate()))
+        if(getStartDate()==null||!getStartDate().equals(comp.getStartDate()))
             comp_word |= fields.startDate.getWord();
-        if(!getEndDate().equals(comp.getEndDate()))
+        if(getEndDate()==null||!getEndDate().equals(comp.getEndDate()))
             comp_word |= fields.endDate.getWord();
-        if(!getDescription().equals(comp.getDescription()))
+        if(getDescription()==null||!getDescription().equals(comp.getDescription()))
             comp_word |= fields.description.getWord();
-        if(!getName().equals(comp.getName()))
+        if(getName()==null||!getName().equals(comp.getName()))
             comp_word |= fields.name.getWord();
-        if(!getPimageid().equals(comp.getPimageid()))
+        if(getPimageid()==null||!getPimageid().equals(comp.getPimageid()))
             comp_word |= fields.pimageid.getWord();
-        if(!getReglink().equals(comp.getReglink()))
+        if(getReglink()==null||!getReglink().equals(comp.getReglink()))
             comp_word |= fields.reglink.getWord();
-        if(!getVenue().equals(comp.getVenue()))
+        if(getVenue()==null||!getVenue().equals(comp.getVenue()))
             comp_word |= fields.venue.getWord();
-        if(!getStarttime().equals(comp.getStarttime()))
+        if(getStarttime()==null||!getStarttime().equals(comp.getStarttime()))
             comp_word |= fields.startime.getWord();
-        if(!getEndtime().equals(comp.getEndtime()))
+        if(getEndtime()==null||!getEndtime().equals(comp.getEndtime()))
             comp_word |= fields.endtime.getWord();
         return comp_word;
     }
@@ -127,13 +131,14 @@ public class EventsDataModel implements Serializable {
 
     public void setPimageid(String pimageid) {
         this.pimageid = pimageid;
-        new Thread(new Runnable() {
+        StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(pimageid);
+        HelperClass.FetchBitmapfromfirebase(pimageid, new Callback<Bitmap>() {
             @Override
-            public void run() {
-                StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(pimageid);
-                eventPoster.setValue(HelperClass.FetchBitmap(pimageid));
+            public void callback(Bitmap object) {
+                eventPoster.setValue(object);
             }
-        }).start();
+        });
+        Log.d("check","try");
     }
 
     public void setReglink(String reglink) {
@@ -178,6 +183,7 @@ public class EventsDataModel implements Serializable {
 
     public EventsDataModel() {
         //TODO: Set Default Value for eventPoster
+        eventPoster = new MutableLiveData<Bitmap>();
         //eventPoster = new MutableLiveData<Bitmap>(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.loading));
     }
 }

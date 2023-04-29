@@ -1,5 +1,6 @@
 package com.test.coneve;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,10 +99,21 @@ public class EventFragment extends Fragment {
         RecyclerView eventsRV = view.findViewById(R.id.events_recycler_view);
         eventsRV.setAdapter(adapter);
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        Intent mservice = new Intent(getContext(),maintainerService.class);
-        serviceInterface = new servicedataInterface(null);
-        getContext().bindService(mservice,(ServiceConnection) serviceInterface,0);
-        serviceInterface.getEvetsObserver().observe(this, changeHandler);
+
+        ServiceConnection connection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                serviceInterface = (servicedataInterface) iBinder;
+                serviceInterface.getEvetsObserver().observe(getActivity(), changeHandler);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+
+            }
+        };
+        Intent mservice = new Intent(this.getContext(),maintainerService.class);
+        getContext().bindService(mservice,connection,0);
     }
 
     @Override
@@ -128,9 +141,11 @@ public class EventFragment extends Fragment {
 
     public Collection<EventsDataModel> sortEvents(Collection<EventsDataModel> inputEventsList, Comparator<EventsDataModel> compFunction){
 
-        TreeSet<EventsDataModel> sortEvents = new TreeSet<EventsDataModel>(compFunction);
+        return inputEventsList;
+        //TODO:implement sortEvents
+        /*TreeSet<EventsDataModel> sortEvents = new TreeSet<EventsDataModel>(compFunction);
         sortEvents.addAll(inputEventsList);
-        return sortEvents;
+        return sortEvents;*/
     }
 }
 

@@ -1,6 +1,7 @@
 package com.test.coneve;
 
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,8 +31,10 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
 
 
     public void setEventSet(Collection<EventsDataModel> eventSet) {
+        if(eventSet == null)
+            return;
         size = eventSet.size();
-        eventSet.toArray(this.eventSet);
+        this.eventSet = eventSet.toArray(this.eventSet);
         notifyDataSetChanged();
     }
 
@@ -40,6 +43,7 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
         windowwidth = widthPixels;
         windowheight = heightPixels;
         size = 0;
+        eventSet = new EventsDataModel[0];
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,7 +62,9 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
     @NonNull
     @Override
     public EventsRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card_view,parent,false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        return viewHolder;
     }
 
     @Override
@@ -68,7 +74,7 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
         ((TextView) holder.getCardView().findViewById(R.id.eventname)).setText(event.getName());
         ((TextView) holder.getCardView().findViewById(R.id.eventdescription)).setText(event.getDescription());
         
-        // TODO: add image in the card view
+
 
         event.eventPoster.observe(caller.getActivity(), new Observer<Bitmap>() {
             @Override

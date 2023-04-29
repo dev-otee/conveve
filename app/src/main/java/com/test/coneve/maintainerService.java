@@ -3,6 +3,7 @@ package com.test.coneve;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -16,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-
+//TODO:handle transitiont to passive of eventobserver
 
 public class maintainerService extends Service {
 
@@ -33,7 +34,10 @@ public class maintainerService extends Service {
 
     public maintainerService() {
         bindings = 0;
+        events = new MutableLiveData<HashMap<String,EventsDataModel>>();
         events.setValue(new HashMap<String,EventsDataModel>());
+
+        profile = new MutableLiveData<FirebaseUser>();
         profile.setValue(null);
         actobserver = new activeEventObserver();
         root = FirebaseDatabase.getInstance().getReference();
@@ -41,6 +45,9 @@ public class maintainerService extends Service {
     @Override
     public int onStartCommand(Intent intent,int flags,int startId)
     {
+
+        FirebaseDatabase.getInstance().getReference("Events").addValueEventListener(actobserver);
+
         return START_STICKY;
     }
 
@@ -49,22 +56,31 @@ public class maintainerService extends Service {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
             Iterable<DataSnapshot> snapshots = snapshot.getChildren();
-            HashMap<String,EventsDataModel> replacement = new HashMap<String,EventsDataModel>();
             HashMap<String,EventsDataModel> current = events.getValue();
             for (DataSnapshot event_raw:
                     snapshots) {
                 EventsDataModel temp = event_raw.getValue(EventsDataModel.class);
                 EventsDataModel current_model = current.get(event_raw.getKey());
-                replacement.put(event_raw.getKey(),temp);
+                if(current_model == null)
+                    current.put(event_raw.getKey(),event_raw.getValue(EventsDataModel.class));
+                else {
+                    int comp_word = current_model.compare(temp);
+                    if (comp_word > 0) {
+                        current_model.update(comp_word,temp);
+                    }
+                }
+                Log.d("check","trying");
             }
-            events.setValue(replacement);
+            events.setValue(current);
         }
 
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
-
+            Log.e("event error",error.getDetails());
         }
     }
+
+
     @Override
     public IBinder onBind(Intent intent) {
         bindings++;
