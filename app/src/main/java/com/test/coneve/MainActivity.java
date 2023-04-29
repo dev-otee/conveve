@@ -48,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onStop();
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
     class BottomNavBarEventHandler implements NavigationBarView.OnItemSelectedListener{
 
         int currentItem;

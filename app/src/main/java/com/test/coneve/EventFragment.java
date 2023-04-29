@@ -94,7 +94,7 @@ public class EventFragment extends Fragment {
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-         adapter = new EventsRVAdapter(metrics.widthPixels, metrics.heightPixels, this);
+        adapter = new EventsRVAdapter(metrics.widthPixels, metrics.heightPixels, this);
 
         RecyclerView eventsRV = view.findViewById(R.id.events_recycler_view);
         eventsRV.setAdapter(adapter);

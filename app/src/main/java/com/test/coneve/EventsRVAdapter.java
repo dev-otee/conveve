@@ -14,6 +14,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import org.w3c.dom.Text;
 
 import java.util.Collection;
@@ -73,13 +75,17 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
         EventsDataModel event = eventSet[position];
         ((TextView) holder.getCardView().findViewById(R.id.eventname)).setText(event.getName());
         ((TextView) holder.getCardView().findViewById(R.id.eventdescription)).setText(event.getDescription());
-        
-
 
         event.eventPoster.observe(caller.getActivity(), new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
-                ((ImageView) holder.getCardView().findViewById(R.id.eventphoto)).setImageBitmap(bitmap);
+//                ((ImageView) holder.getCardView().findViewById(R.id.eventphoto)).setImageBitmap(bitmap);
+
+                Glide.with(caller.getContext())
+                        .load(bitmap)
+                        .override(400, 400)
+                        .centerCrop()
+                        .into(((ImageView) holder.getCardView().findViewById(R.id.eventphoto)));
             }
         });
 

@@ -11,12 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Coneve"
         tools:targetApi="31">
+        <activity
+            android:name=".PerEventView"
+            android:exported="false" />
+
         <service
             android:name=".maintainerService"
             android:enabled="true"
-            android:exported="false">
-
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".MainActivity"

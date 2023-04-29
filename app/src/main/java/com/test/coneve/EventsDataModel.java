@@ -13,7 +13,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.Date;
 
 public class EventsDataModel implements Serializable {
 
@@ -92,13 +97,28 @@ public class EventsDataModel implements Serializable {
             comp_word |= fields.endtime.getWord();
         return comp_word;
     }
-
+    private static final DateFormat DATE_TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     static class ComparatorList{
         static class TimeCmp implements Comparator<EventsDataModel>{
             @Override
             public int compare(EventsDataModel o1, EventsDataModel o2) {
                 //TODO: implement time based sort
-                return 0;
+                try {
+                    Date startDate1 = DATE_TIME_FORMATTER.parse(o1.getStartDate());
+                    Date startDate2 = DATE_TIME_FORMATTER.parse(o2.getStartDate());
+
+                    Date startTime1 = DATE_TIME_FORMATTER.parse(o1.getStarttime());
+                    Date startTime2 = DATE_TIME_FORMATTER.parse(o2.getStarttime());
+
+                    // first compare based on date
+                    int dateCompareResult = startDate1.compareTo(startDate2);
+
+                    if(dateCompareResult != 0 ) return dateCompareResult;
+                    else return startTime1.compareTo(startTime2);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
             }
         }
     }
