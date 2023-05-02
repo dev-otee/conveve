@@ -6,29 +6,50 @@
     tools:context=".EventFragment">
 
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/events_recycler_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            tools:layout_weight="1">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_event_button"
-            android:layout_width="126dp"
-            android:layout_height="91dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="11dp"
-            android:clickable="true"
-            android:foregroundGravity="bottom|right"
-            android:src="@android:drawable/ic_menu_add"
-            android:visibility="invisible"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tagList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_weight="9">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/events_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_event_button"
+                android:layout_width="126dp"
+                android:layout_height="91dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="11dp"
+                android:clickable="true"
+                android:foregroundGravity="bottom|right"
+                android:src="@android:drawable/ic_menu_add"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </FrameLayout>

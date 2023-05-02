@@ -22,6 +22,7 @@ import java.util.Date;
 
 public class EventsDataModel implements Serializable {
 
+
     String startDate;
     String endDate;
     MutableLiveData<Bitmap> eventPoster;
@@ -32,6 +33,7 @@ public class EventsDataModel implements Serializable {
     String Venue;
     String starttime;
     String endtime;
+    TagWord tags;
     enum fields{
         startDate(1),
         endDate(2),
@@ -41,7 +43,8 @@ public class EventsDataModel implements Serializable {
         reglink(32),
         venue(64),
         startime(128),
-        endtime(256);
+        endtime(256),
+        tags(512);
         fields(int word)
         {
             this.word = word;
@@ -73,6 +76,8 @@ public class EventsDataModel implements Serializable {
             setStarttime(update_data.getStarttime());
         if((comp_word & fields.endtime.getWord())>0)
             setEndtime(update_data.getEndtime());
+        if((comp_word & fields.tags.getWord())>0)
+            setTags(update_data.getTags());
     }
     public int compare(EventsDataModel comp)
     {
@@ -95,6 +100,8 @@ public class EventsDataModel implements Serializable {
             comp_word |= fields.startime.getWord();
         if(getEndtime()==null||!getEndtime().equals(comp.getEndtime()))
             comp_word |= fields.endtime.getWord();
+        if(getTags()==null||!tags.equal(comp.tags))
+            comp_word |=fields.tags.getWord();
         return comp_word;
     }
     private static final DateFormat DATE_TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -158,7 +165,6 @@ public class EventsDataModel implements Serializable {
                 eventPoster.setValue(object);
             }
         });
-        Log.d("check","try");
     }
 
     public void setReglink(String reglink) {
@@ -201,6 +207,13 @@ public class EventsDataModel implements Serializable {
         this.endtime = endtime;
     }
 
+    public TagWord getTags() {
+        return tags;
+    }
+
+    public void setTags(TagWord tags) {
+        this.tags = tags;
+    }
     public EventsDataModel() {
         //TODO: Set Default Value for eventPoster
         eventPoster = new MutableLiveData<Bitmap>();

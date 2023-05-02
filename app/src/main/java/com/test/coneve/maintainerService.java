@@ -25,11 +25,12 @@ public class maintainerService extends Service {
 
     public MutableLiveData<FirebaseUser> profile;
     public MutableLiveData<HashMap<String,EventsDataModel>> events;
+    public MutableLiveData<HashMap<String,Tag>> tagList;
 
     private boolean activemode;
     private int bindings;
     private activeEventObserver actobserver;
-
+    private activeTagObserver tagObserver;
     private DatabaseReference root;
 
     public maintainerService() {
@@ -41,6 +42,9 @@ public class maintainerService extends Service {
         profile.setValue(null);
         actobserver = new activeEventObserver();
         root = FirebaseDatabase.getInstance().getReference();
+        tagList = new MutableLiveData<HashMap<String,Tag>>();
+        tagList.setValue(new HashMap<String,Tag>());
+        tagObserver = new activeTagObserver();
     }
     @Override
     public int onStartCommand(Intent intent,int flags,int startId)
@@ -51,6 +55,25 @@ public class maintainerService extends Service {
         return START_STICKY;
     }
 
+    class activeTagObserver implements ValueEventListener{
+
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            Iterable<DataSnapshot> taglist = snapshot.getChildren();
+            HashMap<String,Tag> ctaglist = tagList.getValue();
+            for (DataSnapshot tagraw:
+                 taglist) {
+                Tag temp = tagraw.getValue(Tag.class);
+                ctaglist.put(tagraw.getKey(),temp);
+            }
+            tagList.setValue(ctaglist);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    }
     class activeEventObserver implements ValueEventListener{
 
         @Override
@@ -87,6 +110,7 @@ public class maintainerService extends Service {
         if(bindings == 1)
         {
             root.child(getString(R.string.path_firebase_event)).addValueEventListener(actobserver);
+            root.child("Tags").addValueEventListener(tagObserver);
         }
         return new servicedataInterface(this);
     }
@@ -98,6 +122,7 @@ public class maintainerService extends Service {
         if(bindings == 0)
         {
             root.child(getString(R.string.path_firebase_event)).removeEventListener(actobserver);
+            root.child("Tags").removeEventListener(tagObserver);
         }
         return false;
     }

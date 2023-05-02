@@ -15,6 +15,7 @@ public class servicedataInterface extends Binder {
     {
         currentInstance = setInstance;
     }
+    public MutableLiveData<HashMap<String,Tag>> getTagList(){return currentInstance.tagList;}
     public MutableLiveData<FirebaseUser> getCurrentProfile()
     {
         return currentInstance.profile;

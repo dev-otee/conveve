@@ -40,14 +40,19 @@ public class EventFragment extends Fragment {
     private String mParam2;
     Collection<EventsDataModel> eventSet;
     Comparator<EventsDataModel> discriminator;
-    EventsRVAdapter adapter;
+    EventsRVAdapter adapter; //event recycler view
+    TagsRVAdapter tagAdapter;
     EventChangeHandler changeHandler;
+
     servicedataInterface serviceInterface;
+    RecyclerView tagsRV;
+    TagHandler tagChangeHandler;
     public EventFragment() {
         // Required empty public constructor
         discriminator = new EventsDataModel.ComparatorList.TimeCmp();
         eventSet = null;
         changeHandler = new EventChangeHandler();
+        tagChangeHandler = new TagHandler();
     }
 
     /**
@@ -95,16 +100,21 @@ public class EventFragment extends Fragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         adapter = new EventsRVAdapter(metrics.widthPixels, metrics.heightPixels, this);
-
+        tagAdapter = new TagsRVAdapter();
         RecyclerView eventsRV = view.findViewById(R.id.events_recycler_view);
         eventsRV.setAdapter(adapter);
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        tagsRV = (RecyclerView)getActivity().findViewById(R.id.tagList);
+        tagsRV.setAdapter(tagAdapter);
+        tagsRV.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true));
+
 
         ServiceConnection connection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 serviceInterface = (servicedataInterface) iBinder;
                 serviceInterface.getEvetsObserver().observe(getActivity(), changeHandler);
+                serviceInterface.getTagList().observe(getActivity(),tagChangeHandler);
             }
 
             @Override
@@ -120,6 +130,23 @@ public class EventFragment extends Fragment {
     public void onStop() {
         super.onStop();
         serviceInterface.getEvetsObserver().removeObserver(changeHandler);
+        serviceInterface.getTagList().removeObserver(tagChangeHandler);
+    }
+
+    class TagHandler implements Observer<HashMap<String,Tag>>{
+
+        @Override
+        public void onChanged(HashMap<String, Tag> stringTagHashMap) {
+            Collection<Tag> set = stringTagHashMap.values();
+            tagAdapter.setData(set);
+        }
+    }
+    class tagset implements View.OnClickListener{
+
+        @Override
+        public void onClick(View view) {
+
+        }
     }
 
     class EventChangeHandler implements Observer<HashMap<String,EventsDataModel>>{
@@ -135,6 +162,11 @@ public class EventFragment extends Fragment {
     }
 
     public Collection<EventsDataModel> filterEvents(Collection<EventsDataModel> inputEventsList){
+        int size = inputEventsList.size();
+
+        for (int i = 0; i < size; i++) {
+
+        }
         // TODO: apply filters on the input list and return it
         return inputEventsList;
     }

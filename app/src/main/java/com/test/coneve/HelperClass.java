@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 public class HelperClass {
     public static Bitmap FetchBitmap(String uri)
@@ -54,8 +55,14 @@ public class HelperClass {
 
         return FetchBitmap(uri.toString());
     }
-
+    static HashMap<String,Bitmap> bitmapCache = new HashMap<String,Bitmap>();
     public static void FetchBitmapfromfirebase(String uri,Callback<Bitmap> end) {
+        Bitmap imgval = bitmapCache.get(uri.toString());
+        if(imgval != null)
+        {
+            end.callback(imgval);
+            return;
+        }
         final int ONE_MB = 1024*1024;
         Bitmap result = null;
         StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(uri);
@@ -63,7 +70,9 @@ public class HelperClass {
         imageRef.getBytes(5*ONE_MB).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
-                end.callback(BitmapFactory.decodeByteArray(bytes,0,bytes.length));
+                Bitmap cur_image = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                end.callback(cur_image);
+                bitmapCache.put(uri.toString(),cur_image);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
