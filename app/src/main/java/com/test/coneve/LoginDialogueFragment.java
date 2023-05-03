@@ -142,6 +142,7 @@ public class LoginDialogueFragment extends DialogFragment {
                signInRequest= BeginSignInRequest.builder()
                         .setGoogleIdTokenRequestOptions(
                                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                                        .setFilterByAuthorizedAccounts(false)
                                         .setSupported(true)
                                         .setServerClientId(getString(R.string.googleAuth2Clientid))
                                         .build()
