@@ -22,7 +22,7 @@ import java.util.Date;
 
 public class EventsDataModel implements Serializable {
 
-
+    String id;
     String startDate;
     String endDate;
     MutableLiveData<Bitmap> eventPoster;
@@ -209,6 +209,14 @@ public class EventsDataModel implements Serializable {
 
     public TagWord getTags() {
         return tags;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setTags(TagWord tags) {

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,7 +52,9 @@ public class maintainerService extends Service {
     {
 
         FirebaseDatabase.getInstance().getReference("Events").addValueEventListener(actobserver);
-
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user!=null)
+            profile.setValue(user);
         return START_STICKY;
     }
 

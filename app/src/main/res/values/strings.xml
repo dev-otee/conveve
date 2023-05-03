@@ -3,4 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="path_firebase_event">Events</string>
+    <string name="googleAuth2Clientid">948685027549-1mv29th0jdui23n481s07god24qou2n1.apps.googleusercontent.com</string>
+    <string name="packageID">com.test.coneve</string>
+    <string name="eventID">eventID</string>
 </resources>

@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -55,31 +57,45 @@ public class HelperClass {
 
         return FetchBitmap(uri.toString());
     }
-    static HashMap<String,Bitmap> bitmapCache = new HashMap<String,Bitmap>();
+    static HashMap<String, MutableLiveData<Bitmap>> bitmapCache = new HashMap<String,MutableLiveData<Bitmap>>();
+    static int count =0;
     public static void FetchBitmapfromfirebase(String uri,Callback<Bitmap> end) {
-        Bitmap imgval = bitmapCache.get(uri.toString());
-        if(imgval != null)
+        MutableLiveData<Bitmap> imgval = bitmapCache.get(uri.toString());
+        if(imgval == null)
         {
-            end.callback(imgval);
-            return;
-        }
-        final int ONE_MB = 1024*1024;
-        Bitmap result = null;
-        StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(uri);
+           imgval = new MutableLiveData<Bitmap>();
+           final MutableLiveData<Bitmap> mgval = imgval;
+            bitmapCache.put(uri.toString(),imgval);
+            final int ONE_MB = 1024*1024;
+            Bitmap result = null;
+            StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(uri);
 
-        imageRef.getBytes(5*ONE_MB).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            imageRef.getBytes(5*ONE_MB).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                MutableLiveData<Bitmap> cval;
+                @Override
+                public void onSuccess(byte[] bytes) {
+                    Bitmap cur_image = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+                    end.callback(cur_image);
+                    cval = mgval;
+                    cval.setValue(cur_image);
+                    count++;
+                    Log.d("ImageLoaded",((Integer)count).toString());
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    //TODO:Deal with failiure
+                    Log.d("helper","FetchBitmapfromfirebase",e);
+                }
+            });
+        }
+
+        imgval.observeForever(new Observer<Bitmap>() {
             @Override
-            public void onSuccess(byte[] bytes) {
-                Bitmap cur_image = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
-                end.callback(cur_image);
-                bitmapCache.put(uri.toString(),cur_image);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //TODO:Deal with failiure
-                Log.d("helper","FetchBitmapfromfirebase",e);
+            public void onChanged(Bitmap bitmap) {
+                end.callback(bitmap);
             }
         });
+
     }
 }

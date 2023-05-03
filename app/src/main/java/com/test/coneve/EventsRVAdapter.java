@@ -1,6 +1,8 @@
 package com.test.coneve;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +88,14 @@ public class EventsRVAdapter extends RecyclerView.Adapter<EventsRVAdapter.ViewHo
                         .override(400, 400)
                         .centerCrop()
                         .into(((ImageView) holder.getCardView().findViewById(R.id.eventphoto)));
+            }
+        });
+        holder.getCardView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent perEventView = new Intent(caller.getContext(),PerEventView.class);
+                perEventView.putExtra(caller.getString(R.string.packageID)+caller.getString(R.string.eventID),eventSet[holder.getPosition()].getId());
+                caller.startActivity(perEventView);
             }
         });
 
