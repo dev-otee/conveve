@@ -1,24 +1,28 @@
 package com.test.coneve;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collection;
-import java.util.HashMap;
 
 public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder> {
     int size;
     EventFragment parent;
     static TagWord currentWord;
+    TextView tview;
     @NonNull
     @Override
     public TagsRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.tag_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.horizontal_item_view,parent,false);
         return new ViewHolder(view);
     }
     Tag[] tags;
@@ -29,14 +33,14 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull TagsRVAdapter.ViewHolder holder, int position) {
         TextView view = holder.getTextView();
+
         view.setText(tags[position].getName());
         view.setOnClickListener(new View.OnClickListener() {
             boolean enabled = false;
 
             @Override
             public void onClick(View view) {
-                TextView tview = (TextView) view;
-
+                tview = (TextView) view;
                 if(!enabled)
                 {
                     enabled = true;
@@ -61,6 +65,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
             }
         });
         holder.setTextView(view);
+
     }
 
     @Override
@@ -71,10 +76,12 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.taglistelement);
+            textView = (TextView) itemView.findViewById(R.id.hor_text);
+            imageView = (ImageView) itemView.findViewById(R.id.hor_img);
         }
         public TextView getTextView()
         {
@@ -83,6 +90,14 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         public void setTextView(TextView txview)
         {
             textView = txview;
+        }
+
+        public ImageView getImageView() {
+            return imageView;
+        }
+
+        public void setImageView(int res) {
+            imageView.setImageResource(res);
         }
     }
     public TagsRVAdapter(EventFragment parent)

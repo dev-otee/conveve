@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".EventFragment">
 
 
@@ -11,6 +12,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="20sp"
+            android:text="Choose events based on clubs" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,7 +27,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tagList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -33,6 +41,7 @@
                 android:id="@+id/events_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/black"
                 android:visibility="visible" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

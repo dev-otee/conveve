@@ -51,9 +51,12 @@ public class PerEventView extends AppCompatActivity {
                 event = Interface.getEvetsObserver().getValue().get(eventId);
 //                Log.d("MyLog","Event fetched");
 
-                ((TextView) findViewById(R.id.time_event)).setText("Event Time: "+event.starttime+" - "+event.endtime);
-                ((TextView) findViewById(R.id.eventDisplayName)).setText("About: "+event.getName());
-                ((TextView) findViewById(R.id.Description)).setText(event.getDescription());
+                TextView time = (TextView) findViewById(R.id.time_event);
+                time.setText("Event Time: "+event.starttime+" - "+event.endtime);
+                TextView displayName = (TextView) findViewById(R.id.eventDisplayName);
+                displayName.setText("About: "+event.getName());
+                TextView description = (TextView) findViewById(R.id.Description);
+                description.setText(event.getDescription());
 
                 event.eventPoster.observe(PerEventView.this, new Observer<Bitmap>() {
                     @Override
@@ -63,6 +66,7 @@ public class PerEventView extends AppCompatActivity {
                 });
 
                 Button registerBtn = (Button) findViewById(R.id.register);
+                ImageView share = (ImageView) findViewById(R.id.share_event);
 
                 String url = event.getReglink();
                 Log.d("MyLog",url);
@@ -76,6 +80,26 @@ public class PerEventView extends AppCompatActivity {
                         Uri uri = Uri.parse(url);
                         Intent urlIntent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(urlIntent);
+                    }
+                });
+
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        /// Concatenate the texts into a single string
+                        String combinedText = displayName.getText().toString() + "\n" +
+                                time.getText().toString() + "\n" +
+                                description.getText().toString();
+
+                        // Create the intent for sharing
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.putExtra(Intent.EXTRA_TEXT, combinedText);
+
+                        startActivity(Intent.createChooser(intent, "Share text via: "));
+
+
                     }
                 });
 

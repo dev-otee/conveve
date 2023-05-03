@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -112,7 +113,6 @@ public class EventFragment extends Fragment {
         tagsRV.setAdapter(tagAdapter);
         tagsRV.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true));
 
-
         ServiceConnection connection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -129,6 +129,8 @@ public class EventFragment extends Fragment {
         Intent mservice = new Intent(this.getContext(),maintainerService.class);
         getContext().bindService(mservice,connection,0);
     }
+
+
 
     @Override
     public void onStop() {
