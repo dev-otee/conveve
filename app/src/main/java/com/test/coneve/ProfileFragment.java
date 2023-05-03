@@ -97,7 +97,8 @@ public class ProfileFragment extends Fragment {
                                 if(info.getDisplayName()!=null)
                                     displayName = info.getDisplayName();
                             }
-                        ((TextView)getActivity().findViewById(R.id.prtxt)).setText(displayName+":"+user.getEmail());
+                        ((TextView)getActivity().findViewById(R.id.username)).setText(displayName);
+                        ((TextView)getActivity().findViewById(R.id.email)).setText(user.getEmail());
                     }
                 });
 
