@@ -40,7 +40,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
                 if(!enabled)
                 {
                     enabled = true;
-                    tview.setBackgroundColor(parent.getResources().getColor(R.color.black));
+                    tview.setBackgroundColor(parent.getResources().getColor(R.color.Red));
                     tview.setTextColor(parent.getResources().getColor(R.color.white));
                     currentWord.addTag(tags[holder.getAdapterPosition()]);
                     Collection<EventsDataModel> temp = parent.filterEvents(parent.eventSet,currentWord);

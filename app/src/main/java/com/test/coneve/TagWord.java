@@ -44,7 +44,7 @@ public class TagWord {
         if(tag.getIndex() == getArr_max())
         {
             int last_holder = 0;
-            for (int i = 0; i < arr_max; i++) {
+            for (int i = 0; i <= arr_max; i++) {
                 if(getArr().get(i)>0)
                     last_holder = i;
             }
