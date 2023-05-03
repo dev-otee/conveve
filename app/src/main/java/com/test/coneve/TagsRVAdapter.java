@@ -1,6 +1,7 @@
 package com.test.coneve;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collection;
@@ -32,31 +35,36 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
     }
     @Override
     public void onBindViewHolder(@NonNull TagsRVAdapter.ViewHolder holder, int position) {
-        TextView view = holder.getTextView();
-
+        CardView currentCard = holder.getCadview();
+        TextView view = ((TextView)currentCard.findViewById(R.id.hor_text));
         view.setText(tags[position].getName());
-        view.setOnClickListener(new View.OnClickListener() {
-            boolean enabled = false;
+        tags[position].getIcon().observe(parent, new Observer<Bitmap>() {
+            @Override
+            public void onChanged(Bitmap bitmap) {
+                ((ImageView)currentCard.findViewById(R.id.hor_img)).setImageBitmap(bitmap);
+            }
+        });
 
+        currentCard.setOnClickListener(new View.OnClickListener() {
+            boolean enabled = false;
+            CardView cview;
             @Override
             public void onClick(View view) {
-                tview = (TextView) view;
+                cview = (CardView) view;
                 if(!enabled)
                 {
                     enabled = true;
-                    tview.setBackgroundColor(parent.getResources().getColor(R.color.Red));
-                    tview.setTextColor(parent.getResources().getColor(R.color.white));
+
+                    cview.setCardBackgroundColor(parent.getResources().getColor(R.color.selected_green));
                     currentWord.addTag(tags[holder.getAdapterPosition()]);
                     Collection<EventsDataModel> temp = parent.filterEvents(parent.eventSet,currentWord);
                     temp = parent.sortEvents(temp,new EventsDataModel.ComparatorList.TimeCmp());
                     parent.adapter.setEventSet(temp);
-
                 }
                 else
                 {
                     enabled = false;
-                    tview.setBackgroundColor(parent.getResources().getColor(R.color.white));
-                    tview.setTextColor(parent.getResources().getColor(R.color.black));
+                    cview.setCardBackgroundColor(parent.getResources().getColor(R.color.unselected_grey));
                     currentWord.removeTag(tags[holder.getAdapterPosition()]);
                     Collection<EventsDataModel> temp = parent.filterEvents(parent.eventSet,currentWord);
                     temp = parent.sortEvents(temp,new EventsDataModel.ComparatorList.TimeCmp());
@@ -77,11 +85,11 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
         ImageView imageView;
+        CardView crdview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.hor_text);
-            imageView = (ImageView) itemView.findViewById(R.id.hor_img);
+            crdview = (CardView) itemView.findViewById(R.id.cardView);
         }
         public TextView getTextView()
         {
@@ -91,7 +99,10 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         {
             textView = txview;
         }
-
+        public CardView getCadview()
+        {
+            return crdview;
+        }
         public ImageView getImageView() {
             return imageView;
         }
