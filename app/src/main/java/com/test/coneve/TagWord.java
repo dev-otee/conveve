@@ -27,6 +27,7 @@ public class TagWord {
     public TagWord()
     {
         arr = new ArrayList<Integer>();
+        arr.add(0);
         arr_max = 0;
     }
 
@@ -54,10 +55,12 @@ public class TagWord {
     {
         if(tag.getIndex()>arr_max)
         {
-            ArrayList<Integer> arr = new ArrayList<Integer>(arr_max);
-            for(int i=0;i<arr_max;i++)
-                arr.set(i,this.getArr().get(i));
+            ArrayList<Integer> arr = new ArrayList<Integer>();
+            arr.addAll(this.getArr());
+            for(int i=getArr_max()+1;i<=tag.getIndex();i++)
+                arr.add(i,0);
             this.arr_max = tag.getIndex();
+            this.arr = arr;
         }
         arr.set(tag.getIndex(),arr.get(tag.getIndex())|tag.getWord());
     }
@@ -78,5 +81,16 @@ public class TagWord {
         if((arr.get(tag.getIndex())&tag.getWord())<1)
             return false;
         return true;
+    }
+    public boolean hasTag(TagWord tagWord)
+    {
+        if(getArr_max()<tagWord.getArr_max())
+        return false;
+        for (int i = 0; i <=arr_max; i++) {
+            if((tagWord.arr.get(i)&arr.get(i))!=tagWord.arr.get(i))
+                return false;
+        }
+        return true;
+        
     }
 }

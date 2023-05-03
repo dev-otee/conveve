@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder> {
     int size;
+    EventFragment parent;
     static TagWord currentWord;
     @NonNull
     @Override
@@ -34,18 +35,28 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
 
             @Override
             public void onClick(View view) {
+                TextView tview = (TextView) view;
 
                 if(!enabled)
                 {
                     enabled = true;
-                    view.setBackgroundColor( R.color.black);
+                    tview.setBackgroundColor(parent.getResources().getColor(R.color.black));
+                    tview.setTextColor(parent.getResources().getColor(R.color.white));
                     currentWord.addTag(tags[holder.getAdapterPosition()]);
+                    Collection<EventsDataModel> temp = parent.filterEvents(parent.eventSet,currentWord);
+                    temp = parent.sortEvents(temp,new EventsDataModel.ComparatorList.TimeCmp());
+                    parent.adapter.setEventSet(temp);
+
                 }
                 else
                 {
                     enabled = false;
-                    view.setBackgroundColor(R.color.white);
+                    tview.setBackgroundColor(parent.getResources().getColor(R.color.white));
+                    tview.setTextColor(parent.getResources().getColor(R.color.black));
                     currentWord.removeTag(tags[holder.getAdapterPosition()]);
+                    Collection<EventsDataModel> temp = parent.filterEvents(parent.eventSet,currentWord);
+                    temp = parent.sortEvents(temp,new EventsDataModel.ComparatorList.TimeCmp());
+                    parent.adapter.setEventSet(temp);
                 }
             }
         });
@@ -74,11 +85,12 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
             textView = txview;
         }
     }
-    public TagsRVAdapter()
+    public TagsRVAdapter(EventFragment parent)
     {
         this.tags = new Tag[1];
         size = 0;
         currentWord = new TagWord();
+        this.parent = parent;
     }
     void setData(Collection<Tag> tags)
     {

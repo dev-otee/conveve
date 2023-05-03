@@ -17,11 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +45,7 @@ public class EventFragment extends Fragment {
     EventsRVAdapter adapter; //event recycler view
     TagsRVAdapter tagAdapter;
     EventChangeHandler changeHandler;
+    TagWord current_selected;
 
     servicedataInterface serviceInterface;
     RecyclerView tagsRV;
@@ -53,6 +56,7 @@ public class EventFragment extends Fragment {
         eventSet = null;
         changeHandler = new EventChangeHandler();
         tagChangeHandler = new TagHandler();
+        current_selected = new TagWord();
     }
 
     /**
@@ -100,7 +104,7 @@ public class EventFragment extends Fragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         adapter = new EventsRVAdapter(metrics.widthPixels, metrics.heightPixels, this);
-        tagAdapter = new TagsRVAdapter();
+        tagAdapter = new TagsRVAdapter(this);
         RecyclerView eventsRV = view.findViewById(R.id.events_recycler_view);
         eventsRV.setAdapter(adapter);
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -155,20 +159,35 @@ public class EventFragment extends Fragment {
         public void onChanged(HashMap<String, EventsDataModel> stringEventsDataModelHashMap) {
             Collection<EventsDataModel> set = stringEventsDataModelHashMap.values();
             eventSet = set;
-            Collection<EventsDataModel> temp = filterEvents(eventSet);
+            Collection<EventsDataModel> temp = filterEvents(eventSet,current_selected);
             temp = sortEvents(temp,discriminator);
             adapter.setEventSet(temp);
         }
     }
 
-    public Collection<EventsDataModel> filterEvents(Collection<EventsDataModel> inputEventsList){
-        int size = inputEventsList.size();
 
-        for (int i = 0; i < size; i++) {
-
+    public Collection<EventsDataModel> filterEvents(Collection<EventsDataModel> inputEventsList,TagWord word){
+        current_selected = word;
+        ArrayList<EventsDataModel> temp = new ArrayList<EventsDataModel>();
+        temp.addAll(inputEventsList);
+        boolean empty_selection =true;
+        for (int word1:
+             current_selected.getArr()) {
+            if(word1!=0)
+                empty_selection = false;
         }
-        // TODO: apply filters on the input list and return it
-        return inputEventsList;
+        if(empty_selection)
+            return inputEventsList;
+        temp.removeIf(new Predicate<EventsDataModel>() {
+            @Override
+            public boolean test(EventsDataModel eventsDataModel) {
+                if(eventsDataModel.getTags().hasTag(current_selected))
+                    return false;
+                return true;
+            }
+        });
+
+        return temp;
     }
 
     public Collection<EventsDataModel> sortEvents(Collection<EventsDataModel> inputEventsList, Comparator<EventsDataModel> compFunction){

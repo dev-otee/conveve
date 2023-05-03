@@ -28,7 +28,7 @@ public class Tag {
     }
 
     public void setWord(int word) {
-        this.word = word;
+        this.word = (int) Math.pow(2,word);
     }
 
     public String getName() {
