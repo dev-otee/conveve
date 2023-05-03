@@ -82,6 +82,17 @@ public class TagWord {
             return false;
         return true;
     }
+
+    public boolean hasAny(TagWord tagWord)
+    {
+        int size = tagWord.arr_max<arr_max?tagWord.arr_max:arr_max;
+        for (int i = 0; i <=size; i++) {
+            if((tagWord.arr.get(i)&arr.get(i))>0)
+                return true;
+        }
+        return false;
+    }
+
     public boolean hasTag(TagWord tagWord)
     {
         if(getArr_max()<tagWord.getArr_max())

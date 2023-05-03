@@ -92,6 +92,7 @@ public class LoginDialogueFragment extends DialogFragment {
                                     if(!current_user_branch.exists())
                                         root.child("Users").child(mauth.getCurrentUser().getUid()).setValue("");
                                 }
+                                dismiss();
                             }
                         });
                         getContext().bindService(serviceIntent, new ServiceConnection() {

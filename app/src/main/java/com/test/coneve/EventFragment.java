@@ -181,7 +181,7 @@ public class EventFragment extends Fragment {
         temp.removeIf(new Predicate<EventsDataModel>() {
             @Override
             public boolean test(EventsDataModel eventsDataModel) {
-                if(eventsDataModel.getTags().hasTag(current_selected))
+                if(eventsDataModel.getTags().hasAny(current_selected))
                     return false;
                 return true;
             }
