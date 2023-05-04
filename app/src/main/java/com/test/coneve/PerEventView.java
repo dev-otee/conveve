@@ -10,15 +10,21 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PerEventView extends AppCompatActivity {
     String eventId;
@@ -33,10 +39,32 @@ public class PerEventView extends AppCompatActivity {
         ((ImageView)findViewById(R.id.attend)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent serviceIntent = new Intent(getApplicationContext(),maintainerService.class);
+                Intent calendarIntent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.Events.TITLE, event.getName())
+                        .putExtra(CalendarContract.Events.DESCRIPTION, event.getDescription())
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, event.getVenue())
+                        .putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, getTimeInMillis(event.getStartDate(), event.getStarttime()))
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, getTimeInMillis(event.getEndDate(), event.getEndtime()));
+
+                startActivity(calendarIntent);
 
             }
         });
+    }
+
+    private long getTimeInMillis(String inputDate, String inputTime) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd hh:mm");
+        Date mDate = null;
+
+        try {
+            mDate = dateFormat.parse(inputDate+" "+inputTime);
+        } catch (ParseException e) {
+            Toast.makeText(this, "Error in getting event date", Toast.LENGTH_SHORT).show();
+        }
+
+        return mDate.getTime();
     }
 
     @Override
