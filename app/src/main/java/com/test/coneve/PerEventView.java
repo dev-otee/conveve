@@ -88,9 +88,12 @@ public class PerEventView extends AppCompatActivity {
                     public void onClick(View v) {
 
                         /// Concatenate the texts into a single string
-                        String combinedText = displayName.getText().toString() + "\n" +
-                                time.getText().toString() + "\n" +
-                                description.getText().toString();
+                        String combinedText = "Hey! Checkout this event happening at IIIT Delhi \n"
+                                +"\nEvent: "+event.getName()
+                                +"\nOn: "+event.getStartDate()
+                                +"\nTime: "+event.getStarttime()+" - "+event.getEndtime()
+                                +"\nAbout: \n"+event.getDescription()
+                                +"\n\n\nShared via Conveve App";
 
                         // Create the intent for sharing
                         Intent intent = new Intent(Intent.ACTION_SEND);

@@ -109,7 +109,6 @@ public class EventsDataModel implements Serializable {
         static class TimeCmp implements Comparator<EventsDataModel>{
             @Override
             public int compare(EventsDataModel o1, EventsDataModel o2) {
-                //TODO: implement time based sort
                 try {
                     Date startDate1 = DATE_TIME_FORMATTER.parse(o1.getStartDate());
                     Date startDate2 = DATE_TIME_FORMATTER.parse(o2.getStartDate());
