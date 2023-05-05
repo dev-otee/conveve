@@ -113,6 +113,8 @@ public class EventsDataModel implements Serializable {
                     Date startEvent1 = DATE_TIME_FORMATTER.parse(o1.getStartDate()+" "+o1.getStarttime());
                     Date startEvent2 = DATE_TIME_FORMATTER.parse(o2.getStartDate()+" "+o2.getStarttime());
 
+                    //TODO: issue if same time of events exist
+
                     // first compare based on date
 //                    int dateCompareResult = startDate1.compareTo(startDate2);
 //

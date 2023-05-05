@@ -87,7 +87,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             crdview = (CardView) itemView.findViewById(R.id.cardView);
-            setIsRecyclable(false);
+//            setIsRecyclable(false);
         }
         public TextView getTextView()
         {
