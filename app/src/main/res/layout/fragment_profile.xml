@@ -24,6 +24,7 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textStyle="bold"
                 android:layout_weight="1"
                 android:textSize="28sp"
                 android:text="" />
@@ -62,6 +63,12 @@
             android:layout_weight="1"
             android:textSize="34sp"
             android:text="Interest Filter" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/tagList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"/>
 
 
     </LinearLayout>

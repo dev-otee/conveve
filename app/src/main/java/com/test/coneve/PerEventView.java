@@ -80,11 +80,18 @@ public class PerEventView extends AppCompatActivity {
 //                Log.d("MyLog","Event fetched");
 
                 TextView time = (TextView) findViewById(R.id.time_event);
-                time.setText("Event Time: "+event.starttime+" - "+event.endtime);
+                time.setText("Event Time: \n"+event.starttime+" - "+event.endtime);
                 TextView displayName = (TextView) findViewById(R.id.eventDisplayName);
-                displayName.setText("About: "+event.getName());
+                displayName.setText(event.getName());
                 TextView description = (TextView) findViewById(R.id.Description);
                 description.setText(event.getDescription());
+                TextView date = (TextView) findViewById(R.id.date_event);
+                // set date
+                if(event.getEndDate() == null || event.getEndDate().equals(event.getStartDate())){
+                    date.setText("Event Date:\n"+event.getStartDate());
+                } else{
+                    date.setText("Event Date:\n"+event.getStartDate()+" - "+event.getEndDate());
+                }
 
                 event.eventPoster.observe(PerEventView.this, new Observer<Bitmap>() {
                     @Override
