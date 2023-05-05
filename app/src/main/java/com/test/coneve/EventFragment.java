@@ -105,7 +105,23 @@ public class EventFragment extends Fragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         adapter = new EventsRVAdapter(metrics.widthPixels, metrics.heightPixels, this);
-        tagAdapter = new TagsRVAdapter(this);
+        tagAdapter = new TagsRVAdapter(this, new Callback<Tag>() {
+            @Override
+            public void callback(Tag tag) {
+                current_selected.addTag(tag);
+                Collection<EventsDataModel> temp = filterEvents(eventSet,current_selected);
+                temp = sortEvents(temp,discriminator);
+                adapter.setEventSet(temp);
+            }
+        }, new Callback<Tag>() {
+            @Override
+            public void callback(Tag tag) {
+                current_selected.removeTag(tag);
+                Collection<EventsDataModel> temp = filterEvents(eventSet,current_selected);
+                temp = sortEvents(temp,discriminator);
+                adapter.setEventSet(temp);
+            }
+        });
         RecyclerView eventsRV = view.findViewById(R.id.events_recycler_view);
         eventsRV.setAdapter(adapter);
         eventsRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -194,11 +210,10 @@ public class EventFragment extends Fragment {
 
     public Collection<EventsDataModel> sortEvents(Collection<EventsDataModel> inputEventsList, Comparator<EventsDataModel> compFunction){
 
-        return inputEventsList;
-        //TODO:implement sortEvents
-        /*TreeSet<EventsDataModel> sortEvents = new TreeSet<EventsDataModel>(compFunction);
+
+        TreeSet<EventsDataModel> sortEvents = new TreeSet<EventsDataModel>(compFunction);
         sortEvents.addAll(inputEventsList);
-        return sortEvents;*/
+        return sortEvents;
     }
 }
 

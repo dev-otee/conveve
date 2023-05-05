@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,9 +20,12 @@ import java.util.Collection;
 
 public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder> {
     int size;
-    EventFragment parent;
+    Fragment parent;
     static TagWord currentWord;
     TextView tview;
+
+    Callback<Tag> setTag;
+    Callback<Tag> resetTag;
     @NonNull
     @Override
     public TagsRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -54,21 +58,14 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
                 if(!enabled)
                 {
                     enabled = true;
-
                     cview.setCardBackgroundColor(parent.getResources().getColor(R.color.selected_green));
-                    currentWord.addTag(tags[holder.getAdapterPosition()]);
-                    Collection<EventsDataModel> temp = parent.filterEvents(parent.eventSet,currentWord);
-                    temp = parent.sortEvents(temp,new EventsDataModel.ComparatorList.TimeCmp());
-                    parent.adapter.setEventSet(temp);
+                    setTag.callback(tags[holder.getAdapterPosition()]);
                 }
                 else
                 {
                     enabled = false;
                     cview.setCardBackgroundColor(parent.getResources().getColor(R.color.unselected_grey));
-                    currentWord.removeTag(tags[holder.getAdapterPosition()]);
-                    Collection<EventsDataModel> temp = parent.filterEvents(parent.eventSet,currentWord);
-                    temp = parent.sortEvents(temp,new EventsDataModel.ComparatorList.TimeCmp());
-                    parent.adapter.setEventSet(temp);
+                    resetTag.callback(tags[holder.getAdapterPosition()]);
                 }
             }
         });
@@ -90,6 +87,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             crdview = (CardView) itemView.findViewById(R.id.cardView);
+            setIsRecyclable(false);
         }
         public TextView getTextView()
         {
@@ -117,6 +115,16 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         size = 0;
         currentWord = new TagWord();
         this.parent = parent;
+    }
+
+    public TagsRVAdapter(Fragment parent,Callback<Tag> setTag,Callback<Tag> resetTag)
+    {
+        this.tags = new Tag[1];
+        size = 0;
+        currentWord = new TagWord();
+        this.parent = parent;
+        this.setTag = setTag;
+        this.resetTag = resetTag;
     }
     void setData(Collection<Tag> tags)
     {
