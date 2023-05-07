@@ -18,7 +18,6 @@
         android:id="@+id/uploadimageContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -85,13 +84,46 @@
                         android:visibility="gone" />
 
                     <Button
-                        android:id="@+id/datePicker"
+                        android:id="@+id/datePickerStart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:fontFamily="@font/alegreya_sc_italic"
                         android:gravity="start"
-                        android:text="@string/datePickertitle" />
+                        android:text="EVENT START DATE" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp">
+
+                    <TextView
+                        android:id="@+id/dateQuery2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:fontFamily="@font/alegreya_sc_italic"
+                        android:text="@string/dateQuery"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/dateAnswer2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/alegreya_sc_italic"
+                        android:inputType="date"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/datePickerEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:fontFamily="@font/alegreya_sc_italic"
+                        android:gravity="start"
+                        android:text="EVENT END DATE" />
 
                 </LinearLayout>
 
@@ -239,6 +271,11 @@
             </LinearLayout>
         </ScrollView>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerViewTags"
+            />
         <Button
             android:id="@+id/org_create"
             android:layout_width="wrap_content"

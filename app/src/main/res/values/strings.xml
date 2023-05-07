@@ -7,7 +7,7 @@
     <string name="packageID">com.test.coneve</string>
     <string name="eventID">eventID</string>
 
-    <string name="nameQuery">Name</string>
+    <string name="nameQuery">Event Name</string>
     <string name="dateQuery">Date</string>
     <string name="timestartQuery">Event Start Time</string>
     <string name="timeendQuery">Event End Time</string>
