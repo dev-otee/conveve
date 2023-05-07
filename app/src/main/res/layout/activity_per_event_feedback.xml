@@ -8,6 +8,32 @@
     android:layout_marginRight="20dp"
     tools:context=".per_event_feedback">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Feedback Responses"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:fontFamily="@font/alegreya_sc_bold_italic"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/feedbackRV"
+            />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,23 +71,11 @@
             android:text="POST FEEDBACK"
             android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Feedback Responses"
-            android:layout_gravity="center"
-            android:textSize="20sp"
-            android:fontFamily="@font/alegreya_sc_bold_italic"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:id="@+id/feedbackRV"
-            />
 
 
 
     </LinearLayout>
 
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

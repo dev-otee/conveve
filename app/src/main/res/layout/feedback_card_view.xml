@@ -19,6 +19,15 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/feedbackUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/alegreya_sc_italic"
+                    android:ellipsize="end"
+                    android:text="user"
+                    android:textSize="20sp" />
+                <TextView
                     android:id="@+id/feedbackresponse"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
