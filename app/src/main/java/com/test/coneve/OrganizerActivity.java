@@ -234,7 +234,7 @@ public class OrganizerActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             EventsDataModel model = new EventsDataModel();
-            TextView txt[] = {name,startdate,enddate,starttime,endtime,endtime,RegistrationLink,Venue,description};
+            TextView txt[] = {name,startdate,enddate,starttime,endtime,endtime,Venue,description};
             if(isClear(txt)&&imagelink!=null)
             {
 
@@ -264,7 +264,7 @@ public class OrganizerActivity extends AppCompatActivity {
 
                         }catch (Exception exception)
                         {
-                            Log.d("uploadingimage","unable to oopen image",exception);
+                            Log.d("uploadingimage","unable to open image",exception);
                         }
                         StorageReference storageReference = FirebaseStorage.getInstance().getReference("event_icons").child("images"+id+".jpg");
                         storageReference.putBytes(bytes);
