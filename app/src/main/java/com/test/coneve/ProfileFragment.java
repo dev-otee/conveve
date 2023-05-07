@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.IBinder;
 import android.util.Log;
@@ -49,9 +51,11 @@ public class ProfileFragment extends Fragment {
     private String mParam2;
 
     private FirebaseUser user;
+    private TagWord interest;
 
     public ProfileFragment() {
         // Required empty public constructor
+        interest = new TagWord();
     }
 
     /**
@@ -69,6 +73,7 @@ public class ProfileFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -137,7 +142,19 @@ public class ProfileFragment extends Fragment {
 
                     }
                 });
-
+                RecyclerView interestSelect = ((RecyclerView) getActivity().findViewById(R.id.interesttags));
+                interestSelect.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+                interestSelect.setAdapter(new TagsRVAdapter(getParentFragment(), new Callback<Tag>() {
+                    @Override
+                    public void callback(Tag object) {
+                        interest.addTag(object);
+                    }
+                }, new Callback<Tag>() {
+                    @Override
+                    public void callback(Tag object) {
+                        interest.removeTag(object);
+                    }
+                }));
             }
 
             @Override
