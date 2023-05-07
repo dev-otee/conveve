@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
                         user = firebaseUser;
                         String displayName = user.getDisplayName();
                         List<UserInfo> userData = (List<UserInfo>) user.getProviderData();
-                        if(displayName==null||displayName=="")
+                        if(displayName==null||displayName.length()==0)
                             for (UserInfo info:
                                     userData) {
                                 if(info.getDisplayName()!=null)
@@ -114,7 +114,12 @@ public class ProfileFragment extends Fragment {
                             HelperClass.FetchBitmap(user.getPhotoUrl(), new Callback<Bitmap>() {
                                 @Override
                                 public void callback(Bitmap object) {
-                                    ((ImageView)getActivity().findViewById(R.id.profileImage)).setImageBitmap(object);
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((ImageView)getActivity().findViewById(R.id.profileImage)).setImageBitmap(object);
+                                        }
+                                    });
                                 }
                             });
 //                            HttpsURLConnection getProfilePhoto = (HttpsURLConnection) (new URL(user.getPhotoUrl().toString())).openConnection();

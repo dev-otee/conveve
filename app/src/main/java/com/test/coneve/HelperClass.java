@@ -42,28 +42,31 @@ public class HelperClass {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    HttpURLConnection connection = (HttpURLConnection) (new URL(uri)).openConnection();
-                    connection.connect();
-                    InputStream data = connection.getInputStream();
-                    int length = data.available();
-                    if(length == 0)
-                        throw new Exception("Image File Empty");
-                    byte[] databytes = new byte[length];
-                    data.read(databytes);
+                    try{
+                        HttpURLConnection connection = (HttpURLConnection) (new URL(uri)).openConnection();
+                        connection.connect();
+                        if(connection.getResponseCode()!=HttpURLConnection.HTTP_OK)
+                        {
+                            return;
+                        }
 //            return BitmapFactory.decodeByteArray(databytes,0,length);
-                    callback.callback(BitmapFactory.decodeByteArray(databytes,0,length));
+                        callback.callback(BitmapFactory.decodeStream(connection.getInputStream()));
+                    }catch (MalformedURLException exception)
+                    {
+                        Log.d("MyLog","malformed url",exception);
+                        //TODO : Implement Exception Dialogue Fragment;
+                    }
+                    catch (IOException exception)
+                    {
+                        Log.d("MyLog","io-exception",exception);
+                        //TODO : Implement Exception Dialogue Fragment;
+                    }catch (Exception exception)
+                    {
+                        Log.d("Helper","exception",exception);
+                    }
 
                 }
             }).start();
-        }catch (MalformedURLException exception)
-        {
-            Log.d("MyLog","malformed url",exception);
-            //TODO : Implement Exception Dialogue Fragment;
-        }
-        catch (IOException exception)
-        {
-            Log.d("MyLog","io-exception",exception);
-            //TODO : Implement Exception Dialogue Fragment;
         }
         catch (Exception exception)
         {
