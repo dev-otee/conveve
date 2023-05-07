@@ -6,4 +6,19 @@
     <string name="googleAuth2Clientid">948685027549-1mv29th0jdui23n481s07god24qou2n1.apps.googleusercontent.com</string>
     <string name="packageID">com.test.coneve</string>
     <string name="eventID">eventID</string>
+
+    <string name="nameQuery">Name</string>
+    <string name="dateQuery">Date</string>
+    <string name="timestartQuery">Event Start Time</string>
+    <string name="timeendQuery">Event End Time</string>
+    <string name="venueQuery">Venue</string>
+    <string name="registrationlinkQuery">Registration Link</string>
+    <string name="nameHint">Enter Name</string>
+    <string name="datePickertitle">Choose Date</string>
+    <string name="choosestarttimetittle">Choose Start Time</string>
+    <string name="chooseendtime">Choose end time</string>
+    <string name="reglinkHint">Enter registration link</string>
+    <string name="venueHint">Enter Venue</string>
+    <string name="descriptionQuery">Description</string>
+    <string name="descriptionHint">Enter Description ...</string>
 </resources>

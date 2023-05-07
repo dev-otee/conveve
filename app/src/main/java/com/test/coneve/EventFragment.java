@@ -123,6 +123,7 @@ public class EventFragment extends Fragment {
                 Collection<EventsDataModel> temp = filterEvents(eventSet,current_selected);
                 temp = sortEvents(temp,discriminator);
                 adapter.setEventSet(temp);
+
             }
         });
         RecyclerView eventsRV = view.findViewById(R.id.events_recycler_view);
@@ -135,7 +136,7 @@ public class EventFragment extends Fragment {
         addevent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent addeventIntent = new Intent(getContext(),add_event.class);
+                Intent addeventIntent = new Intent(getContext(),OrganizerActivity.class);
                 startActivity(addeventIntent);
             }
         });
