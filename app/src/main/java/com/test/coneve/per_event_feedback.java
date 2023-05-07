@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +35,23 @@ public class per_event_feedback extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_per_event_feedback);
         Intent intent = getIntent();
+        Intent serviceIntent = new Intent(this,maintainerService.class);
+        bindService(serviceIntent, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                ProfileData pdata = ((servicedataInterface)iBinder).getProfileData().getValue();
+                if(!pdata.getOrganiser())
+                {
+                    ((TextView)findViewById(R.id.feedback)).setVisibility(View.GONE);
+                    ((Button)findViewById(R.id.postFeedback)).setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+
+            }
+        }, 0);
         feedbacklist = new HashMap<String,feedback>();
         eventID = intent.getStringExtra(getString(R.string.packageID)+getString(R.string.eventID));
         fbdb = FirebaseDatabase.getInstance().getReference("Events_Feedback").child(eventID);
