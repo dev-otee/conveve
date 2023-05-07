@@ -35,7 +35,7 @@ import java.util.Calendar;
 public class OrganizerActivity extends AppCompatActivity {
 
     TextView name;
-    TextView date;
+    TextView startdate,enddate;
     TextView starttime;
     TextView endtime;
     TextView RegistrationLink;
@@ -51,14 +51,15 @@ public class OrganizerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_organizer);
         imagelink = null;
         name = findViewById(R.id.nameAnswer);
-        date = findViewById(R.id.dateAnswer);
+        startdate = findViewById(R.id.dateAnswer);
+        enddate = findViewById(R.id.dateAnswer2);
         starttime = findViewById(R.id.starttimeAnswer);
         endtime = findViewById(R.id.endtimeAnswer);
         RegistrationLink = findViewById(R.id.reglinkAnswer);
         Venue = findViewById(R.id.venueAnswer);
         description = findViewById(R.id.descriptionAnswer);
         ((Button)findViewById(R.id.datePickerStart)).setOnClickListener(new choosestartdateonclick());
-        ((Button)findViewById(R.id.datePickerStart)).setOnClickListener(new chooseenddateonclick());
+        ((Button)findViewById(R.id.datePickerEnd)).setOnClickListener(new chooseenddateonclick());
         ((Button)findViewById(R.id.starttimePicker)).setOnClickListener(new chooosestarttimeonclick());
         ((Button)findViewById(R.id.endtimePicker)).setOnClickListener(new choooseendtimeonclick());
         ((ImageView)findViewById(R.id.uploadImageField)).setOnClickListener(new uploadImageonclick());
@@ -95,8 +96,8 @@ public class OrganizerActivity extends AppCompatActivity {
             new DatePickerDialog(ref, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                    date.setVisibility(View.VISIBLE);
-                    date.setText(((Integer)i).toString()+"/"+((Integer)i1).toString()+"/"+((Integer)i2).toString());
+                    startdate.setVisibility(View.VISIBLE);
+                    startdate.setText(((Integer)i).toString()+"/"+((Integer)i1).toString()+"/"+((Integer)i2).toString());
                 }
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -111,8 +112,8 @@ public class OrganizerActivity extends AppCompatActivity {
             new DatePickerDialog(ref, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                    date.setVisibility(View.VISIBLE);
-                    date.setText(((Integer)i).toString()+"/"+((Integer)i1).toString()+"/"+((Integer)i2).toString());
+                    enddate.setVisibility(View.VISIBLE);
+                    enddate.setText(((Integer)i).toString()+"/"+((Integer)i1).toString()+"/"+((Integer)i2).toString());
                 }
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -173,13 +174,14 @@ public class OrganizerActivity extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             EventsDataModel model = new EventsDataModel();
-            TextView txt[] = {name,date,starttime,endtime,endtime,RegistrationLink,Venue,description};
+            TextView txt[] = {name,startdate,enddate,starttime,endtime,endtime,RegistrationLink,Venue,description};
             if(isClear(txt)&&imagelink!=null)
             {
 
 
                 EventsDataModel model1 = new EventsDataModel();
-                model1.setStartDate(date.getText().toString());
+                model1.setStartDate(startdate.getText().toString());
+                model1.setEndDate(enddate.getText().toString());
                 model1.setDescription(description.getText().toString());
                 model1.setReglink(RegistrationLink.getText().toString());
                 model1.setName(name.getText().toString());
