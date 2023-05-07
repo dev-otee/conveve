@@ -53,6 +53,14 @@ public class PerEventView extends AppCompatActivity {
 
             }
         });
+        ((Button)findViewById(R.id.addFeedback)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(),per_event_feedback.class);
+                intent.putExtra(getString(R.string.packageID)+getString(R.string.eventID),eventId);
+                startActivity(intent);
+            }
+        });
     }
 
     private long getTimeInMillis(String inputDate, String inputTime) {
