@@ -227,6 +227,7 @@ public class EventsDataModel implements Serializable {
     public EventsDataModel() {
         //TODO: Set Default Value for eventPoster
         eventPoster = new MutableLiveData<Bitmap>();
+        tags = new TagWord();
         //eventPoster = new MutableLiveData<Bitmap>(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.loading));
     }
 }

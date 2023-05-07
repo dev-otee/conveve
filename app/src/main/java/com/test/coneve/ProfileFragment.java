@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -57,6 +58,9 @@ public class ProfileFragment extends Fragment {
     private TagWord interest;
     private TagsRVAdapter tagadapter;
 
+    servicedataInterface sdI;
+    Observer<FirebaseUser> userObserver;
+
     public ProfileFragment() {
         // Required empty public constructor
         interest = new TagWord();
@@ -98,10 +102,11 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         getActivity().setTitle("Profile");
         Intent intent = new Intent(getContext(),maintainerService.class);
-        tagadapter = new TagsRVAdapter(getParentFragment(), new Callback<Tag>() {
+        tagadapter = new TagsRVAdapter((AppCompatActivity) getActivity(), new Callback<Tag>() {
             @Override
             public void callback(Tag object) {
                 interest.addTag(object);
+
             }
         }, new Callback<Tag>() {
             @Override
@@ -112,6 +117,8 @@ public class ProfileFragment extends Fragment {
         getContext().bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                sdI = (servicedataInterface) iBinder;
+
                 ((servicedataInterface)iBinder).getTagList().observe(getActivity(), new Observer<HashMap<String, Tag>>() {
                     @Override
                     public void onChanged(HashMap<String, Tag> stringTagHashMap) {
@@ -123,6 +130,8 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onChanged(FirebaseUser firebaseUser) {
                         if(firebaseUser == null)
+                            return;
+                        if((TextView)getActivity().findViewById(R.id.username)==null)
                             return;
                         user = firebaseUser;
                         String displayName = user.getDisplayName();

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -21,7 +22,7 @@ import java.util.HashMap;
 
 public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder> {
     int size;
-    Fragment parent;
+    AppCompatActivity parent;
     static TagWord currentWord;
     TextView tview;
     HashMap<Tag,Boolean> tracklist;
@@ -111,7 +112,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
             imageView.setImageResource(res);
         }
     }
-    public TagsRVAdapter(EventFragment parent)
+    public TagsRVAdapter(AppCompatActivity parent)
     {
         this.tags = new Tag[1];
         size = 0;
@@ -119,7 +120,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         this.parent = parent;
     }
 
-    public TagsRVAdapter(Fragment parent,Callback<Tag> setTag,Callback<Tag> resetTag)
+    public TagsRVAdapter(AppCompatActivity parent,Callback<Tag> setTag,Callback<Tag> resetTag)
     {
         this.tags = new Tag[1];
         size = 0;

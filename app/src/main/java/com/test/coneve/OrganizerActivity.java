@@ -5,12 +5,19 @@ import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
@@ -28,9 +35,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class OrganizerActivity extends AppCompatActivity {
 
@@ -45,6 +54,9 @@ public class OrganizerActivity extends AppCompatActivity {
     Uri imagelink;
     ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     OrganizerActivity ref;
+    TagWord tword;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +76,13 @@ public class OrganizerActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.endtimePicker)).setOnClickListener(new choooseendtimeonclick());
         ((ImageView)findViewById(R.id.uploadImageField)).setOnClickListener(new uploadImageonclick());
         ((Button)findViewById(R.id.org_create)).setOnClickListener(new createEvent());
+        tword = new TagWord();
         ref = this;
         pickMedia =
                 registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                     // Callback is invoked after the user selects a media item or closes the
                     // photo picker.
                     if (uri != null) {
-
                         try{
                             ((ImageView) findViewById(R.id.uploadImageField)).setImageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(uri)));
                         }catch (Exception exception)
@@ -83,7 +95,37 @@ public class OrganizerActivity extends AppCompatActivity {
                         Toast.makeText(this, "unable to get image", Toast.LENGTH_SHORT).show();
                     }
                 });
+        RecyclerView TagsRecyclerview = ((RecyclerView)findViewById(R.id.recyclerViewTags));
+        TagsRecyclerview.setLayoutManager(new LinearLayoutManager(getBaseContext(),LinearLayoutManager.HORIZONTAL,false));
+        TagsRVAdapter tagadapter = new TagsRVAdapter(this, new Callback<Tag>() {
+            @Override
+            public void callback(Tag object) {
+                tword.addTag(object);
+            }
+        }, new Callback<Tag>() {
+            @Override
+            public void callback(Tag object) {
+                tword.removeTag(object);
+            }
+        });
+        TagsRecyclerview.setAdapter(tagadapter);
+        Intent bindingservice = new Intent(getBaseContext(),maintainerService.class);
+        bindService(bindingservice, new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                ((servicedataInterface)iBinder).getTagList().observeForever(new Observer<HashMap<String, Tag>>() {
+                    @Override
+                    public void onChanged(HashMap<String, Tag> stringTagHashMap) {
+                        tagadapter.setData(stringTagHashMap.values());
+                    }
+                });
+            }
 
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+
+            }
+        }, 0);
     }
 
 
@@ -189,6 +231,7 @@ public class OrganizerActivity extends AppCompatActivity {
                 model1.setVenue(Venue.getText().toString());
                 model1.setStarttime(starttime.getText().toString());
                 model1.setEndtime(endtime.getText().toString());
+                model1.tags.setTagWord(tword);
                 DatabaseReference fbs = FirebaseDatabase.getInstance().getReference("Events");
                 fbs.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                     @Override
@@ -212,6 +255,7 @@ public class OrganizerActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Uri uri) {
                                 model1.setPimageid(uri.toString());
+                                model1.setId(String.valueOf(id));
                                 fbs.child(id).setValue(model1).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {

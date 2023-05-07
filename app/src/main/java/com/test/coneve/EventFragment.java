@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -108,7 +109,7 @@ public class EventFragment extends Fragment {
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         adapter = new EventsRVAdapter(metrics.widthPixels, metrics.heightPixels, this);
-        tagAdapter = new TagsRVAdapter(this, new Callback<Tag>() {
+        tagAdapter = new TagsRVAdapter((AppCompatActivity) getActivity(), new Callback<Tag>() {
             @Override
             public void callback(Tag tag) {
                 current_selected.addTag(tag);
