@@ -139,7 +139,11 @@ public class OrganizerActivity extends AppCompatActivity {
                 @Override
                 public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                     startdate.setVisibility(View.VISIBLE);
-                    startdate.setText(((Integer)i).toString()+"/"+((Integer)i1).toString()+"/"+((Integer)i2).toString());
+                    if(startdate.getText().toString()==null){
+                        Toast.makeText(ref, "Please choose a start date!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        startdate.setText(((Integer) i).toString() + "/" + ((Integer) i1).toString() + "/" + ((Integer) i2).toString());
+                    }
                 }
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -154,8 +158,13 @@ public class OrganizerActivity extends AppCompatActivity {
             new DatePickerDialog(ref, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
                     enddate.setVisibility(View.VISIBLE);
-                    enddate.setText(((Integer)i).toString()+"/"+((Integer)i1).toString()+"/"+((Integer)i2).toString());
+                    if(enddate.getText().toString()==null){
+                        Toast.makeText(ref, "Please choose an end date!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        enddate.setText(((Integer) i).toString() + "/" + ((Integer) i1).toString() + "/" + ((Integer) i2).toString());
+                    }
                 }
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
 
@@ -171,7 +180,12 @@ public class OrganizerActivity extends AppCompatActivity {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int i, int i1) {
                     starttime.setVisibility(View.VISIBLE);
-                    starttime.setText(((Integer)i).toString()+":"+(Integer)i1);
+                    if(starttime.getText().toString()==null){
+                        Toast.makeText(ref, "Please choose a start time!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        starttime.setText(((Integer)i).toString()+":"+(Integer)i1);
+                    }
+
                 }
             },c.get(Calendar.HOUR),c.get(Calendar.MINUTE), DateFormat.is24HourFormat(getBaseContext())).show();
 
@@ -186,7 +200,11 @@ public class OrganizerActivity extends AppCompatActivity {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int i, int i1) {
                     endtime.setVisibility(View.VISIBLE);
-                    endtime.setText(((Integer)i).toString()+":"+(Integer)i1);
+                    if(endtime.getText().toString()==null){
+                        Toast.makeText(ref, "Please choose an end time!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        endtime.setText(((Integer) i).toString() + ":" + (Integer) i1);
+                    }
                 }
             },c.get(Calendar.HOUR),c.get(Calendar.MINUTE), DateFormat.is24HourFormat(getBaseContext())).show();
 
@@ -219,7 +237,6 @@ public class OrganizerActivity extends AppCompatActivity {
             TextView txt[] = {name,startdate,enddate,starttime,endtime,endtime,RegistrationLink,Venue,description};
             if(isClear(txt)&&imagelink!=null)
             {
-
 
                 EventsDataModel model1 = new EventsDataModel();
                 model1.setStartDate(startdate.getText().toString());
