@@ -40,7 +40,7 @@ public class per_event_feedback extends AppCompatActivity {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 ProfileData pdata = ((servicedataInterface)iBinder).getProfileData().getValue();
-                if(!pdata.getOrganiser())
+                if(pdata.getOrganiser())
                 {
                     ((TextView)findViewById(R.id.feedback)).setVisibility(View.GONE);
                     ((Button)findViewById(R.id.postFeedback)).setVisibility(View.GONE);
