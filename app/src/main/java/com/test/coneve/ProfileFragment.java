@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -52,10 +53,12 @@ public class ProfileFragment extends Fragment {
 
     private FirebaseUser user;
     private TagWord interest;
+    private TagsRVAdapter tagadapter;
 
     public ProfileFragment() {
         // Required empty public constructor
         interest = new TagWord();
+
     }
 
     /**
@@ -93,9 +96,26 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         getActivity().setTitle("Profile");
         Intent intent = new Intent(getContext(),maintainerService.class);
+        tagadapter = new TagsRVAdapter(getParentFragment(), new Callback<Tag>() {
+            @Override
+            public void callback(Tag object) {
+                interest.addTag(object);
+            }
+        }, new Callback<Tag>() {
+            @Override
+            public void callback(Tag object) {
+                interest.removeTag(object);
+            }
+        });
         getContext().bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                ((servicedataInterface)iBinder).getTagList().observe(getActivity(), new Observer<HashMap<String, Tag>>() {
+                    @Override
+                    public void onChanged(HashMap<String, Tag> stringTagHashMap) {
+                        tagadapter.setData(stringTagHashMap.values());
+                    }
+                });
 
                 ((servicedataInterface)iBinder).getCurrentProfile(getActivity(), null).observe(getActivity(), new Observer<FirebaseUser>() {
                     @Override
@@ -144,17 +164,7 @@ public class ProfileFragment extends Fragment {
                 });
                 RecyclerView interestSelect = ((RecyclerView) getActivity().findViewById(R.id.interesttags));
                 interestSelect.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
-                interestSelect.setAdapter(new TagsRVAdapter(getParentFragment(), new Callback<Tag>() {
-                    @Override
-                    public void callback(Tag object) {
-                        interest.addTag(object);
-                    }
-                }, new Callback<Tag>() {
-                    @Override
-                    public void callback(Tag object) {
-                        interest.removeTag(object);
-                    }
-                }));
+                interestSelect.setAdapter(tagadapter);
             }
 
             @Override

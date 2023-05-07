@@ -44,7 +44,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         Boolean status = tracklist.get(tags[position]);
         TextView view = ((TextView)currentCard.findViewById(R.id.hor_text));
         view.setText(tags[position].getName());
-        tags[position].getIcon().observe(parent, new Observer<Bitmap>() {
+        tags[position].getIcon().observeForever(new Observer<Bitmap>() {
             @Override
             public void onChanged(Bitmap bitmap) {
                 ((ImageView)currentCard.findViewById(R.id.hor_img)).setImageBitmap(bitmap);
