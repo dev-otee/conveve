@@ -17,13 +17,14 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder> {
     int size;
     Fragment parent;
     static TagWord currentWord;
     TextView tview;
-
+    HashMap<Tag,Boolean> tracklist;
     Callback<Tag> setTag;
     Callback<Tag> resetTag;
     @NonNull
@@ -40,6 +41,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull TagsRVAdapter.ViewHolder holder, int position) {
         CardView currentCard = holder.getCadview();
+        Boolean status = tracklist.get(tags[position]);
         TextView view = ((TextView)currentCard.findViewById(R.id.hor_text));
         view.setText(tags[position].getName());
         tags[position].getIcon().observe(parent, new Observer<Bitmap>() {
@@ -50,7 +52,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         });
 
         currentCard.setOnClickListener(new View.OnClickListener() {
-            boolean enabled = false;
+            Boolean enabled = tracklist.get(tags[holder.getAdapterPosition()]);
             CardView cview;
             @Override
             public void onClick(View view) {
@@ -87,7 +89,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             crdview = (CardView) itemView.findViewById(R.id.cardView);
-            setIsRecyclable(false);
+
         }
         public TextView getTextView()
         {
@@ -125,6 +127,7 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
         this.parent = parent;
         this.setTag = setTag;
         this.resetTag = resetTag;
+        tracklist = new HashMap<Tag,Boolean>();
     }
     void setData(Collection<Tag> tags)
     {
@@ -132,6 +135,11 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
             return;
         this.tags = tags.toArray(this.tags);
         size = tags.size();
+        for (int i = 0; i < size; i++) {
+            Boolean to = tracklist.get(this.tags[i]);
+            if(to==null)
+                tracklist.put(this.tags[i],false);
+        }
         notifyDataSetChanged();
     }
 }
