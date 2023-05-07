@@ -23,7 +23,12 @@ public class userProfile {
             profilepic = null;
             return;
         }
-        profilepic = HelperClass.FetchBitmap(user.getPhotoUrl());
+        HelperClass.FetchBitmap(user.getPhotoUrl(), new Callback<Bitmap>() {
+            @Override
+            public void callback(Bitmap object) {
+                profilepic = object;
+            }
+        });
     }
 
     boolean isSignedIn()

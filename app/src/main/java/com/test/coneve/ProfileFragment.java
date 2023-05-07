@@ -3,6 +3,8 @@ package com.test.coneve;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,7 +24,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -99,6 +108,28 @@ public class ProfileFragment extends Fragment {
                             }
                         ((TextView)getActivity().findViewById(R.id.username)).setText(displayName);
                         ((TextView)getActivity().findViewById(R.id.email)).setText(user.getEmail());
+
+                        //adding profile picture
+                        try {
+                            HelperClass.FetchBitmap(user.getPhotoUrl(), new Callback<Bitmap>() {
+                                @Override
+                                public void callback(Bitmap object) {
+                                    ((ImageView)getActivity().findViewById(R.id.profileImage)).setImageBitmap(object);
+                                }
+                            });
+//                            HttpsURLConnection getProfilePhoto = (HttpsURLConnection) (new URL(user.getPhotoUrl().toString())).openConnection();
+//                            getProfilePhoto.connect();
+//                            if(getProfilePhoto.getResponseCode() != HttpURLConnection.HTTP_OK){
+//                                return;
+//                            }
+//
+//                            InputStream iStream = getProfilePhoto.getInputStream();
+//                            Bitmap bmf = BitmapFactory.decodeStream(iStream);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 });
 

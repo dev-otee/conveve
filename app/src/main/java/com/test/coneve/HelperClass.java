@@ -24,38 +24,58 @@ import java.net.URL;
 import java.util.HashMap;
 
 public class HelperClass {
-    public static Bitmap FetchBitmap(String uri)
+    public static void FetchBitmap(String uri, Callback<Bitmap> callback)
     {
         try{
 
-            HttpURLConnection connection = (HttpURLConnection) (new URL(uri)).openConnection();
-            connection.connect();
-            InputStream data = connection.getInputStream();
-            int length = data.available();
-            if(length == 0)
-                throw new Exception("Image File Empty");
-            byte[] databytes = new byte[length];
-            data.read(databytes);
-            return BitmapFactory.decodeByteArray(databytes,0,length);
+//            HttpURLConnection connection = (HttpURLConnection) (new URL(uri)).openConnection();
+//            connection.connect();
+//            InputStream data = connection.getInputStream();
+//            int length = data.available();
+//            if(length == 0)
+//                throw new Exception("Image File Empty");
+//            byte[] databytes = new byte[length];
+//            data.read(databytes);
+////            return BitmapFactory.decodeByteArray(databytes,0,length);
+//            callback.callback(BitmapFactory.decodeByteArray(databytes,0,length));
+//
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    HttpURLConnection connection = (HttpURLConnection) (new URL(uri)).openConnection();
+                    connection.connect();
+                    InputStream data = connection.getInputStream();
+                    int length = data.available();
+                    if(length == 0)
+                        throw new Exception("Image File Empty");
+                    byte[] databytes = new byte[length];
+                    data.read(databytes);
+//            return BitmapFactory.decodeByteArray(databytes,0,length);
+                    callback.callback(BitmapFactory.decodeByteArray(databytes,0,length));
+
+                }
+            }).start();
         }catch (MalformedURLException exception)
         {
+            Log.d("MyLog","malformed url",exception);
             //TODO : Implement Exception Dialogue Fragment;
         }
         catch (IOException exception)
         {
+            Log.d("MyLog","io-exception",exception);
             //TODO : Implement Exception Dialogue Fragment;
         }
         catch (Exception exception)
         {
             //TODO : Implement Exception Dialogue Fragment;
-            Log.d("helperclass","exception",exception);
+            Log.d("MyLog","exception",exception);
         }
-        return null;
+//        return null;
     }
-    public static Bitmap FetchBitmap(Uri uri)
+    public static void FetchBitmap(Uri uri, Callback<Bitmap> callback)
     {
 
-        return FetchBitmap(uri.toString());
+        FetchBitmap(uri.toString(), callback);
     }
     static HashMap<String, MutableLiveData<Bitmap>> bitmapCache = new HashMap<String,MutableLiveData<Bitmap>>();
     static int count =0;
