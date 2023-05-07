@@ -104,23 +104,26 @@ public class EventsDataModel implements Serializable {
             comp_word |=fields.tags.getWord();
         return comp_word;
     }
-    private static final DateFormat DATE_TIME_FORMATTER = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static final DateFormat DATE_TIME_FORMATTER = new SimpleDateFormat("yyyy/MM/dd HH:mm");
     static class ComparatorList{
         static class TimeCmp implements Comparator<EventsDataModel>{
             @Override
             public int compare(EventsDataModel o1, EventsDataModel o2) {
                 try {
-                    Date startDate1 = DATE_TIME_FORMATTER.parse(o1.getStartDate());
-                    Date startDate2 = DATE_TIME_FORMATTER.parse(o2.getStartDate());
+                    Date startDate1 = DATE_TIME_FORMATTER.parse(o1.getStartDate()+" "+o1.getStarttime());
+                    Date startDate2 = DATE_TIME_FORMATTER.parse(o2.getStartDate()+" "+o2.getStarttime());
 
-                    Date startTime1 = DATE_TIME_FORMATTER.parse(o1.getStarttime());
-                    Date startTime2 = DATE_TIME_FORMATTER.parse(o2.getStarttime());
+//                    // first compare based on date
+//                    int dateCompareResult = startDate1.compareTo(startDate2);
+//
+//                    if(dateCompareResult != 0 ) return dateCompareResult;
+//                    else return startTime1.compareTo(startTime2);
+                    int result = startDate2.compareTo(startDate1);
+                    if(result == 0){
+                        return Integer.compare(o1.hashCode(), o2.hashCode());
+                    }
 
-                    // first compare based on date
-                    int dateCompareResult = startDate1.compareTo(startDate2);
-
-                    if(dateCompareResult != 0 ) return dateCompareResult;
-                    else return startTime1.compareTo(startTime2);
+                    return result;
                 } catch (ParseException e) {
                     e.printStackTrace();
                     return 0;
