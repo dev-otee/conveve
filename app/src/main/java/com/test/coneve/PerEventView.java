@@ -24,6 +24,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class PerEventView extends AppCompatActivity {
@@ -94,7 +95,10 @@ public class PerEventView extends AppCompatActivity {
                 });
 
                 Button registerBtn = (Button) findViewById(R.id.register);
+                Button addFeedback = (Button) findViewById(R.id.addFeedback);
                 ImageView share = (ImageView) findViewById(R.id.share_event);
+
+
 
                 String url = event.getReglink();
                 Log.d("MyLog",url);

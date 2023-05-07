@@ -18,11 +18,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 
@@ -142,7 +144,7 @@ public class ProfileFragment extends Fragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((ImageView)getActivity().findViewById(R.id.profileImage)).setImageBitmap(object);
+                                            ((ImageView)getActivity().findViewById(R.id.profileImage)).setImageBitmap(Bitmap.createScaledBitmap(object, 300,300,false));
                                         }
                                     });
                                 }

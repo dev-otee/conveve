@@ -134,6 +134,20 @@
                     android:textColor="@color/white"
                     android:textSize="24sp" />
 
+                <Button
+                    android:id="@+id/addFeedback"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="#3FB32A"
+                    android:backgroundTint="#4CAF50"
+                    android:text="Feedback"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+
 
             </LinearLayout>
         </LinearLayout>
