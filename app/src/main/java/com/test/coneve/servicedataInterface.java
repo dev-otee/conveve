@@ -19,14 +19,22 @@ public class servicedataInterface extends Binder {
         currentInstance = setInstance;
     }
     public MutableLiveData<HashMap<String,Tag>> getTagList(){return currentInstance.tagList;}
-    public MutableLiveData<FirebaseUser> getCurrentProfile(FragmentActivity context)
+    public MutableLiveData<FirebaseUser> getCurrentProfile(FragmentActivity context,Callback<FirebaseUser> user)
     {
         if(currentInstance.profile.getValue() == null)
         {
-            LoginDialogueFragment loginFragment = new LoginDialogueFragment();
+            LoginDialogueFragment loginFragment = new LoginDialogueFragment(user);
             loginFragment.show(context.getSupportFragmentManager(),"Login");
         }
         return currentInstance.profile;
+    }
+    public MutableLiveData<ProfileData> getProfileData()
+    {
+        return currentInstance.getProfileData();
+    }
+    public void setProfileData(ProfileData pdata)
+    {
+        currentInstance.setProfileData(pdata);
     }
     public MutableLiveData<FirebaseUser> setCurrentProfile()
     {

@@ -15,7 +15,10 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.SearchView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -128,13 +131,27 @@ public class EventFragment extends Fragment {
         tagsRV = (RecyclerView)getActivity().findViewById(R.id.tagList);
         tagsRV.setAdapter(tagAdapter);
         tagsRV.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,true));
-
+        FloatingActionButton addevent = getActivity().findViewById(R.id.add_event_button);
+        addevent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addeventIntent = new Intent(getContext(),add_event.class);
+                startActivity(addeventIntent);
+            }
+        });
         ServiceConnection connection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 serviceInterface = (servicedataInterface) iBinder;
                 serviceInterface.getEvetsObserver().observe(getActivity(), changeHandler);
                 serviceInterface.getTagList().observe(getActivity(),tagChangeHandler);
+                serviceInterface.getProfileData().observe(getActivity(), new Observer<ProfileData>() {
+                    @Override
+                    public void onChanged(ProfileData profileData) {
+                        if(profileData.getOrganiser())
+                            addevent.setVisibility(View.VISIBLE);
+                    }
+                });
             }
 
             @Override

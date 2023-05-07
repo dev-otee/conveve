@@ -28,10 +28,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,14 +44,21 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginDialogueFragment extends DialogFragment {
     BeginSignInRequest signInRequest;
     SignInClient oneTapClient;
+    Callback<FirebaseUser> callback;
 
     FirebaseAuth mauth;
     final int REQ_ONE_TAP =5;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    public LoginDialogueFragment() {
+    public LoginDialogueFragment()
+    {
+        mauth  = FirebaseAuth.getInstance();
+        callback = null;
+    }
+    public LoginDialogueFragment(Callback<FirebaseUser> user) {
         mauth = FirebaseAuth.getInstance();
+        callback = user;
         // Required empty public constructor
     }
 
@@ -92,6 +102,8 @@ public class LoginDialogueFragment extends DialogFragment {
                                     if(!current_user_branch.exists())
                                         root.child("Users").child(mauth.getCurrentUser().getUid()).setValue("");
                                 }
+                                if(callback!=null)
+                                    callback.callback(mauth.getCurrentUser());
                                 dismiss();
                             }
                         });
@@ -99,6 +111,21 @@ public class LoginDialogueFragment extends DialogFragment {
                             @Override
                             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                                 ((servicedataInterface)iBinder).setCurrentProfile().setValue(mauth.getCurrentUser());
+                                FirebaseDatabase.getInstance().getReference().child("Organiser").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DataSnapshot dataSnapshot) {
+                                        Iterable<DataSnapshot> organisers = dataSnapshot.getChildren();
+                                        String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                                        for(DataSnapshot organiser: organisers)
+                                        {
+                                            if(email.matches(((String)organiser.getValue(String.class))))
+                                            {
+                                                ((servicedataInterface)iBinder).getProfileData().getValue().setOrganiser(true);
+                                                break;
+                                            }
+                                        }
+                                    }
+                                });
                                 dismiss();
                             }
                             @Override

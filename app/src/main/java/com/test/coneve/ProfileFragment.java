@@ -82,8 +82,8 @@ public class ProfileFragment extends Fragment {
         getContext().bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                user = ((servicedataInterface)iBinder).getCurrentProfile(getActivity()).getValue();
-                ((servicedataInterface)iBinder).getCurrentProfile(getActivity()).observe(getActivity(), new Observer<FirebaseUser>() {
+
+                ((servicedataInterface)iBinder).getCurrentProfile(getActivity(), null).observe(getActivity(), new Observer<FirebaseUser>() {
                     @Override
                     public void onChanged(FirebaseUser firebaseUser) {
                         if(firebaseUser == null)

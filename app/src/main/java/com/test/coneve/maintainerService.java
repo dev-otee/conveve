@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 public class maintainerService extends Service {
 
 
+    public MutableLiveData<ProfileData> profileData;
 
     public MutableLiveData<FirebaseUser> profile;
     public MutableLiveData<HashMap<String,EventsDataModel>> events;
@@ -38,7 +40,8 @@ public class maintainerService extends Service {
         bindings = 0;
         events = new MutableLiveData<HashMap<String,EventsDataModel>>();
         events.setValue(new HashMap<String,EventsDataModel>());
-
+        profileData = new MutableLiveData<ProfileData>();
+        profileData.setValue(new ProfileData());
         profile = new MutableLiveData<FirebaseUser>();
         profile.setValue(null);
         actobserver = new activeEventObserver();
@@ -53,8 +56,24 @@ public class maintainerService extends Service {
 
         FirebaseDatabase.getInstance().getReference("Events").addValueEventListener(actobserver);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user!=null)
+        if(user!=null) {
             profile.setValue(user);
+            FirebaseDatabase.getInstance().getReference().child("Organiser").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                    Iterable<DataSnapshot> organisers = dataSnapshot.getChildren();
+                    String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                    for(DataSnapshot organiser: organisers)
+                    {
+                        if(email.matches(((String)organiser.getValue(String.class))))
+                        {
+                            getProfileData().getValue().setOrganiser(true);
+                            break;
+                        }
+                    }
+                }
+            });
+        }
         return START_STICKY;
     }
 
@@ -116,6 +135,14 @@ public class maintainerService extends Service {
             root.child("Tags").addValueEventListener(tagObserver);
         }
         return new servicedataInterface(this);
+    }
+
+    public MutableLiveData<ProfileData> getProfileData() {
+        return profileData;
+    }
+
+    public void setProfileData(ProfileData profileData) {
+        this.profileData.setValue(profileData);
     }
 
     @Override
