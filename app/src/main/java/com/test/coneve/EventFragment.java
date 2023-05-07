@@ -228,10 +228,9 @@ public class EventFragment extends Fragment {
     public Collection<EventsDataModel> sortEvents(Collection<EventsDataModel> inputEventsList, Comparator<EventsDataModel> compFunction){
 
 
-        /*TreeSet<EventsDataModel> sortEvents = new TreeSet<EventsDataModel>(compFunction);
+        TreeSet<EventsDataModel> sortEvents = new TreeSet<EventsDataModel>(compFunction);
         sortEvents.addAll(inputEventsList);
-        return sortEvents;*/
-        return inputEventsList;
+        return sortEvents;
     }
 }
 
