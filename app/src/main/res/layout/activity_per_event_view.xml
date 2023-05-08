@@ -122,7 +122,7 @@
                         android:layout_height="60dp"
                         android:id="@+id/attend"
                         android:layout_marginStart="8dp"
-                        android:layout_marginEnd="20dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/attending"
                         android:gravity="center" />
