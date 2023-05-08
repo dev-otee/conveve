@@ -119,7 +119,7 @@ public class EventFragment extends Fragment {
                         @Override
                         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                             ProfileData profileData = ((servicedataInterface)iBinder).getProfileData().getValue();
-                            if(profileData==null)
+                            if(profileData==null||profileData.getInterests()==null)
                                 return;
                             Collection<EventsDataModel> temp = filterEvents(eventSet,profileData.getInterests());
                             temp = sortEvents(temp,discriminator);
