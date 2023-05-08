@@ -92,6 +92,14 @@
                     android:textColorHint="@color/white"
                     android:textSize="16sp" />
 
+                <TextView
+                    android:id="@+id/count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Attendees:"
+                    android:textColor="#FFFFFF"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
             <LinearLayout

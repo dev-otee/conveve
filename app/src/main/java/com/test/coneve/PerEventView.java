@@ -1,5 +1,6 @@
 package com.test.coneve;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
@@ -20,7 +21,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.net.URL;
 import java.text.DateFormat;
@@ -87,6 +91,7 @@ public class PerEventView extends AppCompatActivity {
     {
         super.onStart();
         Intent serviceIntent = new Intent(this,maintainerService.class);
+
         bindService(serviceIntent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -94,6 +99,24 @@ public class PerEventView extends AppCompatActivity {
                 event = Interface.getEvetsObserver().getValue().get(eventId);
 //                Log.d("MyLog","Event fetched");
                 ProfileData pdata = Interface.getProfileData().getValue();
+                if(pdata.getOrganiser())
+                {
+                    if(event.getCreator().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                    {
+                        ((TextView)findViewById(R.id.count)).setVisibility(View.VISIBLE);
+                        FirebaseDatabase.getInstance().getReference("Event_Attendee").child(eventId).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                ((TextView)findViewById(R.id.count)).setText("Attendee Count:"+String.valueOf(snapshot.getChildrenCount()));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
                 boolean enable = false;
                 for (String event:
                      pdata.attending_events) {

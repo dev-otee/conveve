@@ -29,6 +29,8 @@ import java.util.List;
 public class HelperClass {
     public static String UserNamefromUser(FirebaseUser user)
     {
+        if(user==null)
+            return null;
         String name;
         name = user.getDisplayName();
         if(name == null||name.length()==0)

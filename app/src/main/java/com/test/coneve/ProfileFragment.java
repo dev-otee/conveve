@@ -133,17 +133,9 @@ public class ProfileFragment extends Fragment {
                             return;
                         if((TextView)getActivity().findViewById(R.id.username)==null)
                             return;
-                        user = firebaseUser;
-                        String displayName = user.getDisplayName();
-                        List<UserInfo> userData = (List<UserInfo>) user.getProviderData();
-                        if(displayName==null||displayName.length()==0)
-                            for (UserInfo info:
-                                    userData) {
-                                if(info.getDisplayName()!=null)
-                                    displayName = info.getDisplayName();
-                            }
+                        String displayName = HelperClass.UserNamefromUser(firebaseUser);
                         ((TextView)getActivity().findViewById(R.id.username)).setText(displayName);
-                        ((TextView)getActivity().findViewById(R.id.email)).setText(user.getEmail());
+                        ((TextView)getActivity().findViewById(R.id.email)).setText(firebaseUser.getEmail());
 
                         //adding profile picture
                         try {
