@@ -39,11 +39,11 @@ public class per_event_feedback extends AppCompatActivity {
         bindService(serviceIntent, new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-                ProfileData pdata = ((servicedataInterface)iBinder).getProfileData().getValue();
+/*                ProfileData pdata = ((servicedataInterface)iBinder).getProfileData().getValue();
                 if(pdata.getOrganiser())
                 {
                     (findViewById(R.id.stoporg)).setVisibility(View.GONE);
-                }
+                }*/
             }
 
             @Override

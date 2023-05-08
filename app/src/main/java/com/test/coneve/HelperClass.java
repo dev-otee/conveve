@@ -31,7 +31,7 @@ public class HelperClass {
     {
         String name;
         name = user.getDisplayName();
-        if(name == null&&name.length()==0)
+        if(name == null||name.length()==0)
         {
             List<UserInfo> ulist= (List<UserInfo>)user.getProviderData();
             for (UserInfo info:
