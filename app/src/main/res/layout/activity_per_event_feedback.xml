@@ -34,47 +34,46 @@
             android:id="@+id/feedbackRV"
             />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/stoporg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:fontFamily="@font/alegreya"
-            android:text="How was the event? Please help us with your valuable Feedback!"/>
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alegreya"
+                android:text="How was the event? Please help us with your valuable Feedback!"
+                android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/feedback"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/alegreya"
-            android:hint="Enter your Feedback"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:maxLines="10"
-            android:minLines="4" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider" />
 
-        <Button
-            android:id="@+id/postFeedback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/alegreya_sc_italic"
-            android:text="POST FEEDBACK"
-            android:textSize="12sp" />
+            <EditText
+                android:id="@+id/feedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alegreya"
+                android:hint="Enter your Feedback"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:maxLines="10"
+                android:minLines="4" />
+
+            <Button
+                android:id="@+id/postFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/alegreya_sc_italic"
+                android:text="POST FEEDBACK"
+                android:textSize="12sp" />
 
 
-
-
-    </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
     </ScrollView>
