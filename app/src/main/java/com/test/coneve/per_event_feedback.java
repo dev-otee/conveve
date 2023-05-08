@@ -42,8 +42,7 @@ public class per_event_feedback extends AppCompatActivity {
                 ProfileData pdata = ((servicedataInterface)iBinder).getProfileData().getValue();
                 if(pdata.getOrganiser())
                 {
-                    ((TextView)findViewById(R.id.feedback)).setVisibility(View.GONE);
-                    ((Button)findViewById(R.id.postFeedback)).setVisibility(View.GONE);
+                    (findViewById(R.id.stoporg)).setVisibility(View.GONE);
                 }
             }
 
