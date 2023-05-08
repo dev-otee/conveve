@@ -116,16 +116,6 @@ public class PerEventView extends AppCompatActivity {
                 Button addFeedback = (Button) findViewById(R.id.addFeedback);
                 ImageView share = (ImageView) findViewById(R.id.share_event);
 
-
-
-//                addFeedback.setVisibility(View.GONE);
-
-                
-//                if(compareWithCurrentTime(event.getEndDate(), event.getEndtime())){
-//                    addFeedback.setVisibility(View.VISIBLE);
-//                }
-
-
                 String url = event.getReglink();
                 Log.d("MyLog",url);
                 if(url == null || !isValidUrl(url)) {
