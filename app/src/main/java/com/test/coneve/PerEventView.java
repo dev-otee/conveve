@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.net.URL;
 import java.text.DateFormat;
@@ -40,6 +42,7 @@ public class PerEventView extends AppCompatActivity {
         setContentView(R.layout.activity_per_event_view);
         Intent startIntent = getIntent();
         eventId = startIntent.getStringExtra(getString(R.string.packageID)+getString(R.string.eventID));
+
         ((ImageView)findViewById(R.id.attend)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,7 +93,41 @@ public class PerEventView extends AppCompatActivity {
                 servicedataInterface Interface = (servicedataInterface) iBinder;
                 event = Interface.getEvetsObserver().getValue().get(eventId);
 //                Log.d("MyLog","Event fetched");
-
+                ProfileData pdata = Interface.getProfileData().getValue();
+                boolean enable = false;
+                for (String event:
+                     pdata.attending_events) {
+                    if(eventId.equals(event))
+                    {
+                        ((Button)findViewById(R.id.attend1)).setText("Attending");
+                        enable = true;
+                        break;
+                    }
+                }
+                final boolean enable1 = enable;
+                ((Button)findViewById(R.id.attend1)).setOnClickListener(new View.OnClickListener() {
+                    boolean attending = enable1;
+                    @Override
+                    public void onClick(View view) {
+                        ProfileData pdata = Interface.getProfileData().getValue();
+                        if(!attending)
+                        {
+                            attending = true;
+                            pdata.attending_events.add(eventId);
+                            ((Button) view).setText("Attending");
+                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(pdata);
+                            FirebaseDatabase.getInstance().getReference("Event_Attendee").child(eventId).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("");
+                        }
+                        else {
+                            attending = false;
+                            pdata.attending_events.remove(eventId);
+                            ((Button)view).setText("Attend");
+                            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(pdata);
+                            FirebaseDatabase.getInstance().getReference("Event_Attendee").child(eventId).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
+                        }
+                        Interface.getProfileData().setValue(pdata);
+                    }
+                });
                 TextView time = (TextView) findViewById(R.id.time_event);
                 time.setText("Event Time: \n"+event.starttime+" - "+event.endtime);
                 TextView displayName = (TextView) findViewById(R.id.eventDisplayName);

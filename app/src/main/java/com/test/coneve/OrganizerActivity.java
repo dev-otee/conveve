@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -268,6 +269,7 @@ public class OrganizerActivity extends AppCompatActivity {
                 model1.setStarttime(starttime.getText().toString());
                 model1.setEndtime(endtime.getText().toString());
                 model1.tags.setTagWord(tword);
+                model1.setCreator(FirebaseAuth.getInstance().getCurrentUser().getUid());
                 DatabaseReference fbs = FirebaseDatabase.getInstance().getReference("Events");
                 fbs.get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                     @Override

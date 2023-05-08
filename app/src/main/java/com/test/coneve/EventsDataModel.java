@@ -34,6 +34,7 @@ public class EventsDataModel implements Serializable {
     String starttime;
     String endtime;
     TagWord tags;
+    String creator;
     enum fields{
         startDate(1),
         endDate(2),
@@ -229,5 +230,13 @@ public class EventsDataModel implements Serializable {
         eventPoster = new MutableLiveData<Bitmap>();
         tags = new TagWord();
         //eventPoster = new MutableLiveData<Bitmap>(BitmapFactory.decodeResource(Resources.getSystem(),R.drawable.loading));
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 }
