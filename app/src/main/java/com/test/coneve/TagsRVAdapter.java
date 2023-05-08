@@ -134,12 +134,14 @@ public class TagsRVAdapter extends RecyclerView.Adapter<TagsRVAdapter.ViewHolder
     {
         if(tags == null)
             return;
+
         this.tags = tags.toArray(this.tags);
         size = tags.size();
         for (int i = 0; i < size; i++) {
             Boolean to = tracklist.get(this.tags[i]);
             if(to==null)
                 tracklist.put(this.tags[i],false);
+
         }
         notifyDataSetChanged();
     }

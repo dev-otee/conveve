@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,7 +126,14 @@ public class ProfileFragment extends Fragment {
                         tagadapter.setData(stringTagHashMap.values());
                     }
                 });
-
+                ((Button)getActivity().findViewById(R.id.addInterest)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ProfileData pdata = ((servicedataInterface)iBinder).getProfileData().getValue();
+                        pdata.setInterests(interest);
+                        FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(pdata);
+                    }
+                });
                 ((servicedataInterface)iBinder).getCurrentProfile(getActivity(), null).observe(getActivity(), new Observer<FirebaseUser>() {
                     @Override
                     public void onChanged(FirebaseUser firebaseUser) {

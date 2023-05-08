@@ -112,6 +112,27 @@ public class EventFragment extends Fragment {
         tagAdapter = new TagsRVAdapter((AppCompatActivity) getActivity(), new Callback<Tag>() {
             @Override
             public void callback(Tag tag) {
+                if(tag.getIndex()==0&&tag.getWord()==1)
+                {
+                    Intent servInt = new Intent(getContext(),maintainerService.class);
+                    getActivity().bindService(servInt, new ServiceConnection() {
+                        @Override
+                        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                            ProfileData profileData = ((servicedataInterface)iBinder).getProfileData().getValue();
+                            if(profileData==null)
+                                return;
+                            Collection<EventsDataModel> temp = filterEvents(eventSet,profileData.getInterests());
+                            temp = sortEvents(temp,discriminator);
+                            adapter.setEventSet(temp);
+                        }
+
+                        @Override
+                        public void onServiceDisconnected(ComponentName componentName) {
+
+                        }
+                    },0);
+                    return;
+                }
                 current_selected.addTag(tag);
                 Collection<EventsDataModel> temp = filterEvents(eventSet,current_selected);
                 temp = sortEvents(temp,discriminator);
@@ -120,6 +141,27 @@ public class EventFragment extends Fragment {
         }, new Callback<Tag>() {
             @Override
             public void callback(Tag tag) {
+                if(tag.getIndex()==0&&tag.getWord()==1)
+                {
+                    Intent servInt = new Intent(getContext(),maintainerService.class);
+                    getActivity().bindService(servInt, new ServiceConnection() {
+                        @Override
+                        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                            ProfileData profileData = ((servicedataInterface)iBinder).getProfileData().getValue();
+                            if(profileData==null)
+                                return;
+                            Collection<EventsDataModel> temp = filterEvents(eventSet,current_selected);
+                            temp = sortEvents(temp,discriminator);
+                            adapter.setEventSet(temp);
+                        }
+
+                        @Override
+                        public void onServiceDisconnected(ComponentName componentName) {
+
+                        }
+                    },0);
+                    return;
+                }
                 current_selected.removeTag(tag);
                 Collection<EventsDataModel> temp = filterEvents(eventSet,current_selected);
                 temp = sortEvents(temp,discriminator);
@@ -204,12 +246,12 @@ public class EventFragment extends Fragment {
 
 
     public Collection<EventsDataModel> filterEvents(Collection<EventsDataModel> inputEventsList,TagWord word){
-        current_selected = word;
+
         ArrayList<EventsDataModel> temp = new ArrayList<EventsDataModel>();
         temp.addAll(inputEventsList);
         boolean empty_selection =true;
         for (int word1:
-             current_selected.getArr()) {
+             word.getArr()) {
             if(word1!=0)
                 empty_selection = false;
         }
@@ -218,7 +260,7 @@ public class EventFragment extends Fragment {
         temp.removeIf(new Predicate<EventsDataModel>() {
             @Override
             public boolean test(EventsDataModel eventsDataModel) {
-                if(eventsDataModel.getTags().hasAny(current_selected))
+                if(eventsDataModel.getTags().hasAny(word))
                     return false;
                 return true;
             }
