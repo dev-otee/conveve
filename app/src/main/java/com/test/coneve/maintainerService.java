@@ -61,6 +61,7 @@ public class maintainerService extends Service {
             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.exists())
                         getProfileData().setValue(dataSnapshot.getValue(ProfileData.class));
                 }
             });
