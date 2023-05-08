@@ -24,7 +24,10 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class PerEventView extends AppCompatActivity {
@@ -115,6 +118,14 @@ public class PerEventView extends AppCompatActivity {
 
 
 
+//                addFeedback.setVisibility(View.GONE);
+
+                
+//                if(compareWithCurrentTime(event.getEndDate(), event.getEndtime())){
+//                    addFeedback.setVisibility(View.VISIBLE);
+//                }
+
+
                 String url = event.getReglink();
                 Log.d("MyLog",url);
                 if(url == null || !isValidUrl(url)) {
@@ -161,6 +172,26 @@ public class PerEventView extends AppCompatActivity {
             }
         }, 0);
     }
+
+//    private boolean compareWithCurrentTime(String endDate, String endTime) {
+//        // Get the current date and time
+//        LocalDateTime currentDateTime = LocalDateTime.now();
+//
+//        // Define the date and time format patterns
+//        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+//
+//        // Parse the given date and time strings into LocalDateTime objects
+//        LocalDateTime givenDateTime = LocalDateTime.parse(endDate + " " + endTime,
+//                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+//
+//        // Compare the current date and time with the given date and time
+//        int comparisonResult = currentDateTime.compareTo(givenDateTime);
+//
+//        if (comparisonResult>0) return true;
+//
+//        return false;
+//    }
 
     public boolean isValidUrl(String url) {
         try {
