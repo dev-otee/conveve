@@ -126,6 +126,13 @@ public class ProfileFragment extends Fragment {
                         tagadapter.setData(stringTagHashMap.values());
                     }
                 });
+                ((Button)getActivity().findViewById(R.id.logoutBtn)).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FirebaseAuth.getInstance().signOut();
+                        ((servicedataInterface)iBinder).setCurrentProfile().setValue(FirebaseAuth.getInstance().getCurrentUser());
+                    }
+                });
                 ((Button)getActivity().findViewById(R.id.addInterest)).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -138,7 +145,12 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onChanged(FirebaseUser firebaseUser) {
                         if(firebaseUser == null)
+                        {
+                            ((TextView)getActivity().findViewById(R.id.username)).setText("");
+                            ((TextView)getActivity().findViewById(R.id.email)).setText("");
+                            ((ImageView)getActivity().findViewById(R.id.profileImage)).setImageBitmap(null);
                             return;
+                        }
                         if((TextView)getActivity().findViewById(R.id.username)==null)
                             return;
                         String displayName = HelperClass.UserNamefromUser(firebaseUser);

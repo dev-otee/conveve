@@ -122,7 +122,7 @@ public class LoginDialogueFragment extends DialogFragment {
                                                 .addValueEventListener(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                        if(snapshot.exists())
+                                                        if(snapshot.exists()&snapshot.hasChildren())
                                                         ((servicedataInterface)iBinder).getProfileData().setValue(snapshot.getValue(ProfileData.class));
                                                     }
 
