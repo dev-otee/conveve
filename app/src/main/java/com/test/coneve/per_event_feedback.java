@@ -78,7 +78,7 @@ public class per_event_feedback extends AppCompatActivity {
                              String key = "fb"+(len+1);
                             feedback fdbk = new feedback();
                             fdbk.setMessage(((EditText)findViewById(R.id.feedback)).getText().toString());
-                            fdbk.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            fdbk.setUid(HelperClass.UserNamefromUser(FirebaseAuth.getInstance().getCurrentUser()));
                             fbdb.child(key).setValue(fdbk).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {

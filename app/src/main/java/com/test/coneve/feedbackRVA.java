@@ -6,7 +6,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.lang.reflect.Array;
 import java.util.Collection;
@@ -29,7 +32,8 @@ public class feedbackRVA extends RecyclerView.Adapter<feedbackRVA.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull feedbackRVA.ViewHolder holder, int position) {
-        holder.gettextview().setText(data[position].message);
+        ((TextView)holder.getcrdview().findViewById(R.id.feedbackresponse)).setText(data[position].getMessage());
+        ((TextView)holder.getcrdview().findViewById(R.id.feedbackUser)).setText(data[position].getUid());
     }
 
     @Override
@@ -42,14 +46,17 @@ public class feedbackRVA extends RecyclerView.Adapter<feedbackRVA.ViewHolder> {
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView txview;
+        CardView crdview;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txview = itemView.findViewById(R.id.feedbackresponse);
+            crdview = itemView.findViewById(R.id.parentFeedbackContainer);
         }
 
         public TextView gettextview()
         {
             return txview;
         }
+        public CardView getcrdview(){return crdview;}
     }
 }

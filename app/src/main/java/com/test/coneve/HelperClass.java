@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -22,8 +24,28 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 
 public class HelperClass {
+    public static String UserNamefromUser(FirebaseUser user)
+    {
+        String name;
+        name = user.getDisplayName();
+        if(name == null&&name.length()==0)
+        {
+            List<UserInfo> ulist= (List<UserInfo>)user.getProviderData();
+            for (UserInfo info:
+                    ulist
+                 ) {
+                if(info.getDisplayName()!=null&&info.getDisplayName().length()>0)
+                {
+                    name = info.getDisplayName();
+                    break;
+                }
+            }
+        }
+        return name;
+    }
     public static void FetchBitmap(String uri, Callback<Bitmap> callback)
     {
         try{
