@@ -103,7 +103,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="30dp"
@@ -112,6 +112,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_gravity= "center"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -124,14 +127,14 @@
                         android:background="@drawable/attending"
                         android:gravity="center" />
 
-                    <TextView
-                        android:id="@+id/livecomment"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_weight="1"
-                        android:background="#4CAF50"
-                        android:text="TextView"
-                        android:visibility="gone" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/livecomment"-->
+<!--                        android:layout_width="60dp"-->
+<!--                        android:layout_height="60dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:background="#4CAF50"-->
+<!--                        android:text="TextView"-->
+<!--                        android:visibility="gone" />-->
 
                     <ImageView
                         android:layout_width="40dp"
@@ -145,46 +148,63 @@
                         android:gravity="center"
                         android:text="share" />
 
+                    <Button
+                        android:id="@+id/attend1"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:backgroundTint="#3F51B5"
+                        android:text="ATTEND"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/register"
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:background="#3B873E"
-                    android:text="Register"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-
-                <Button
-                    android:id="@+id/addFeedback"
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:background="#3FB32A"
-                    android:backgroundTint="#4CAF50"
-                    android:text="Feedback"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/attend1"
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="attend" />
+                    android:layout_gravity= "center"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
 
+
+                    <Button
+                        android:id="@+id/register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:layout_gravity="center"
+                        android:backgroundTint="#3B873E"
+                        android:layout_weight="1"
+                        android:text="Register (G-Form)"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+
+                    <Button
+                        android:id="@+id/addFeedback"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        style="@style/Widget.Material3.Button.ElevatedButton"
+                        android:backgroundTint="#9A2727"
+                        android:text="Feedback"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </LinearLayout>
 
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
-
 
 
 

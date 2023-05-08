@@ -85,14 +85,14 @@ public class MainActivity extends AppCompatActivity {
                             .addToBackStack(null)
                             .commit();
                     break;
-                case R.id.qr_scanner:
-                    currentItem = R.id.qr_scanner;
-                    QrScannerFragment qrScannerFragment = new QrScannerFragment();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container_view, qrScannerFragment)
-                            .addToBackStack(null)
-                            .commit();
-                    break;
+//                case R.id.qr_scanner:
+//                    currentItem = R.id.qr_scanner;
+//                    QrScannerFragment qrScannerFragment = new QrScannerFragment();
+//                    getSupportFragmentManager().beginTransaction()
+//                            .replace(R.id.fragment_container_view, qrScannerFragment)
+//                            .addToBackStack(null)
+//                            .commit();
+//                    break;
             };
             return true;
         }

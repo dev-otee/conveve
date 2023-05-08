@@ -122,7 +122,7 @@ public class PerEventView extends AppCompatActivity {
                      pdata.attending_events) {
                     if(eventId.equals(event))
                     {
-                        ((Button)findViewById(R.id.attend1)).setText("Attending");
+                        ((Button)findViewById(R.id.attend1)).setText("ATTENDING");
                         enable = true;
                         break;
                     }
@@ -137,14 +137,15 @@ public class PerEventView extends AppCompatActivity {
                         {
                             attending = true;
                             pdata.attending_events.add(eventId);
-                            ((Button) view).setText("Attending");
+                            ((Button) view).setText("ATTENDING");
+
                             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(pdata);
                             FirebaseDatabase.getInstance().getReference("Event_Attendee").child(eventId).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue("");
                         }
                         else {
                             attending = false;
                             pdata.attending_events.remove(eventId);
-                            ((Button)view).setText("Attend");
+                            ((Button)view).setText("ATTEND");
                             FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(pdata);
                             FirebaseDatabase.getInstance().getReference("Event_Attendee").child(eventId).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).removeValue();
                         }

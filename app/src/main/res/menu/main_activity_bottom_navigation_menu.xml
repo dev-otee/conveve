@@ -6,10 +6,10 @@
         android:icon="@drawable/event"
         android:title="Events" />
 
-    <item
-        android:id="@+id/qr_scanner"
-        android:icon="@drawable/qr_scanner"
-        android:title="Scanner" />
+<!--    <item-->
+<!--        android:id="@+id/qr_scanner"-->
+<!--        android:icon="@drawable/qr_scanner"-->
+<!--        android:title="Scanner" />-->
 
     <item
         android:id="@+id/profile"

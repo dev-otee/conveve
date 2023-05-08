@@ -28,9 +28,6 @@
             android:name=".OrganizerActivity"
             android:exported="false" />
         <activity
-            android:name=".add_event"
-            android:exported="false" />
-        <activity
             android:name=".PerEventView"
             android:exported="false" />
 
