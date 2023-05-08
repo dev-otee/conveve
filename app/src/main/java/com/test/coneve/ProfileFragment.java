@@ -139,7 +139,7 @@ public class ProfileFragment extends Fragment {
 
                         //adding profile picture
                         try {
-                            HelperClass.FetchBitmap(user.getPhotoUrl(), new Callback<Bitmap>() {
+                            HelperClass.FetchBitmap(firebaseUser.getPhotoUrl(), new Callback<Bitmap>() {
                                 @Override
                                 public void callback(Bitmap object) {
                                     getActivity().runOnUiThread(new Runnable() {

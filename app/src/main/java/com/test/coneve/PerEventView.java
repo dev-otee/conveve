@@ -101,7 +101,7 @@ public class PerEventView extends AppCompatActivity {
                 ProfileData pdata = Interface.getProfileData().getValue();
                 if(pdata.getOrganiser())
                 {
-                    if(event.getCreator().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                    if(event.getCreator()!=null&&event.getCreator().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
                     {
                         ((TextView)findViewById(R.id.count)).setVisibility(View.VISIBLE);
                         FirebaseDatabase.getInstance().getReference("Event_Attendee").child(eventId).addValueEventListener(new ValueEventListener() {
