@@ -40,6 +40,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class OrganizerActivity extends AppCompatActivity {
 
@@ -183,7 +184,9 @@ public class OrganizerActivity extends AppCompatActivity {
                     if(starttime.getText().toString()==null){
                         Toast.makeText(ref, "Please choose a start time!", Toast.LENGTH_SHORT).show();
                     }else{
-                        starttime.setText(((Integer)i).toString()+":"+(Integer)i1);
+                        String selectedTime = String.format(Locale.getDefault(), "%02d:%02d", i, i1);
+                        Log.d("TimePicker",selectedTime);
+                        starttime.setText(selectedTime);
                     }
 
                 }
@@ -203,7 +206,8 @@ public class OrganizerActivity extends AppCompatActivity {
                     if(endtime.getText().toString()==null){
                         Toast.makeText(ref, "Please choose an end time!", Toast.LENGTH_SHORT).show();
                     }else {
-                        endtime.setText(((Integer) i).toString() + ":" + (Integer) i1);
+                        String selectedTime = String.format(Locale.getDefault(), "%02d:%02d", i, i1);
+                        endtime.setText(selectedTime);
                     }
                 }
             },c.get(Calendar.HOUR),c.get(Calendar.MINUTE), DateFormat.is24HourFormat(getBaseContext())).show();
