@@ -38,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -143,7 +144,15 @@ public class OrganizerActivity extends AppCompatActivity {
                     if(startdate.getText().toString()==null){
                         Toast.makeText(ref, "Please choose a start date!", Toast.LENGTH_SHORT).show();
                     }else {
-                        startdate.setText(((Integer) i).toString() + "/" + ((Integer) i1).toString() + "/" + ((Integer) i2).toString());
+
+                        // Format the selected date as "yyyy/MM/dd"
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(i, i1, i2);
+                        String formattedDate = dateFormat.format(calendar.getTime());
+                        Log.d("DatePicker", formattedDate);
+
+                        startdate.setText(formattedDate);
                     }
                 }
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();
@@ -164,7 +173,13 @@ public class OrganizerActivity extends AppCompatActivity {
                     if(enddate.getText().toString()==null){
                         Toast.makeText(ref, "Please choose an end date!", Toast.LENGTH_SHORT).show();
                     }else {
-                        enddate.setText(((Integer) i).toString() + "/" + ((Integer) i1).toString() + "/" + ((Integer) i2).toString());
+                        // Format the selected date as "yyyy/MM/dd"
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(i, i1, i2);
+                        String formattedDate = dateFormat.format(calendar.getTime());
+
+                        enddate.setText(formattedDate);
                     }
                 }
             },c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH)).show();

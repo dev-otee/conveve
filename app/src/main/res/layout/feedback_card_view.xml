@@ -15,30 +15,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="4"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/feedbackUser"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:fontFamily="@font/alegreya_sc_italic"
-                    android:ellipsize="end"
+                    android:textColor="#52B2BF"
+                    android:layout_weight="2"
                     android:text="user"
                     android:textSize="20sp" />
+
                 <TextView
                     android:id="@+id/feedbackresponse"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:fontFamily="@font/alegreya"
-                    android:ellipsize="end"
+                    android:layout_weight="4"
                     android:text="feedback"
                     android:textSize="20sp" />
 
 
-        </LinearLayout>
+
+            </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 
