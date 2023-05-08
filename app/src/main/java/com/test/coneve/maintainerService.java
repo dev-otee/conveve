@@ -58,6 +58,12 @@ public class maintainerService extends Service {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user!=null) {
             profile.setValue(user);
+            FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+                @Override
+                public void onSuccess(DataSnapshot dataSnapshot) {
+                        getProfileData().setValue(dataSnapshot.getValue(ProfileData.class));
+                }
+            });
             FirebaseDatabase.getInstance().getReference().child("Organiser").get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
                 @Override
                 public void onSuccess(DataSnapshot dataSnapshot) {

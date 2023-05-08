@@ -1,5 +1,8 @@
 package com.test.coneve;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProfileData {
     public String uid;
     public String name;
@@ -7,10 +10,12 @@ public class ProfileData {
     public String photourl;
     public TagWord interests;
     public Boolean organiser;
+    public List<String> attending_events;
 
     public ProfileData()
     {
         organiser = false;
+        attending_events = new ArrayList<String>();
     }
     public String getUid() {
         return uid;
