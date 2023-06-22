@@ -1,2 +1,2 @@
-# conveve
-Second Iteration MC project
+# Conveve
+ConvEve is a college event app, an exclusive platform for event management in IIITD that aims to help the students get timely updates on upcoming events, and the organizers to convey messages and details of various events in an efficient manner. It offers features like google calendar syncing, interest and club-based filtering of events, in-app registration for events, discussion forums and feedback section.
